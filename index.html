@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Sum-Up Generator</title>
+  <link href="style.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6 text-gray-900">
+
+  <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6 space-y-6">
+    <h1 class="text-2xl font-bold text-center">📝 Daily Sum-Up Generator</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <label class="block">
+        FreeScout Tickets Replied:
+        <input type="number" id="tickets" class="input-box" min="0" />
+      </label>
+      <label class="block">
+        Live Chats Replied:
+        <input type="number" id="chats" class="input-box" min="0" />
+      </label>
+      <label class="block">
+        Reviews Asked:
+        <input type="number" id="reviews" class="input-box" min="0" />
+      </label>
+      <label class="block">
+        GPT Training Data Added:
+        <input type="number" id="gptdata" class="input-box" min="0" />
+      </label>
+      <label class="block col-span-2">
+        Meetings Attended:
+        <input type="text" id="meetings" class="input-box" />
+      </label>
+      <label class="block col-span-2">
+        Docs Worked On:
+        <textarea id="docs" class="input-box" rows="2"></textarea>
+      </label>
+      <label class="block col-span-2">
+        QA / R&D:
+        <textarea id="qa" class="input-box" rows="2"></textarea>
+      </label>
+      <label class="block col-span-2">
+        Learning:
+        <textarea id="learning" class="input-box" rows="2"></textarea>
+      </label>
+      <label class="block col-span-2">
+        Collaborations:
+        <textarea id="collab" class="input-box" rows="2"></textarea>
+      </label>
+      <label class="block col-span-2">
+        OTF / Additional Tasks:
+        <textarea id="otf" class="input-box" rows="2"></textarea>
+      </label>
+      <label class="block col-span-2">
+        Tomorrow's Commitment:
+        <textarea id="commitment" class="input-box" rows="2"></textarea>
+      </label>
+    </div>
+
+    <div class="flex gap-4">
+      <button onclick="generateSummary()" class="btn btn-blue">Generate Summary</button>
+      <button onclick="copySummary()" class="btn btn-green">Copy to Clipboard</button>
+      <button onclick="downloadSummary()" class="btn btn-dark">Download as .txt</button>
+    </div>
+
+    <textarea id="summaryOutput" readonly class="output-box"></textarea>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
