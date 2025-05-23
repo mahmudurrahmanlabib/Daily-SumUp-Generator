@@ -16,7 +16,7 @@ A simple MVP **frontend-only** web app to quickly generate daily work sum-ups wi
 
 ## How to use
 
-1. Open `index.html` in any modern browser.
+1. Open this [Link](https://mahmudurrahmanlabib.github.io/Daily-SumUp-Generator/) in any modern browser.
 2. Check the boxes for the tasks you completed or contributed to.
 3. Add any additional details in the text areas.
 4. Click **Generate Sum Up**.
