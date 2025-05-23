@@ -1,41 +1,61 @@
 function generateSummary() {
   const tickets = document.getElementById('tickets').value;
   const chats = document.getElementById('chats').value;
-  const reviews = document.getElementById('reviews').value;
-  const gptdata = document.getElementById('gptdata').value;
+  const org = document.getElementById('org') ? document.getElementById('org').value : '';
+  const github = document.getElementById('github') ? document.getElementById('github').value : '';
+  const facebook = document.getElementById('facebook') ? document.getElementById('facebook').value : '';
+  const issueAssign = document.getElementById('issueAssign') ? document.getElementById('issueAssign').value : '';
+  const docsNew = document.getElementById('docsNew') ? document.getElementById('docsNew').value : '';
+  const docsUpdate = document.getElementById('docsUpdate') ? document.getElementById('docsUpdate').value : '';
+  const docsKb = document.getElementById('docsKb') ? document.getElementById('docsKb').value : '';
   const meetings = document.getElementById('meetings').value;
-  const docs = document.getElementById('docs').value;
+  const reviews = document.getElementById('reviews').value;
   const qa = document.getElementById('qa').value;
+  const rnd = document.getElementById('rnd') ? document.getElementById('rnd').value : '';
   const learning = document.getElementById('learning').value;
-  const collab = document.getElementById('collab').value;
+  const gptdata = document.getElementById('gptdata').value;
   const otf = document.getElementById('otf').value;
   const commitment = document.getElementById('commitment').value;
 
   const summary = `## 📝 Daily Sum-Up Report
 
-**FreeScout Tickets Replied:** ${tickets}
-**Live Chats Replied:** ${chats}
-**Reviews Asked:** ${reviews}
-**GPT Training Data Added:** ${gptdata}
+Tickets and Live Chats:
+Replied to ${tickets || '0'} FreeScout tickets.
+Replied to ${chats || '0'} live chats.
 
-**Meetings Attended:** ${meetings}
+ORG, GitHub, and Facebook Replies:
+Replied to ${org || '0'} ORG topics.
+Replied to ${github || '0'} GitHub issues.
+Replied to ${facebook || '0'} Facebook community posts/comments.
 
-**Docs Worked On:**
-${docs}
+Issue Assigning:
+Assigned ${issueAssign || '0'} issues to relevant teams.
 
-**QA / R&D:**
-${qa}
+Documentation (New, Update, Knowledgebase):
+Wrote ${docsNew || '0'} new documentation articles.
+Updated ${docsUpdate || '0'} existing documentation articles.
+Published ${docsKb || '0'} knowledgebase articles.
 
-**Learning:**
-${learning}
+Meetings:
+Attended ${meetings || '0'} meetings${meetings ? ` (${meetings})` : ''}.
 
-**Collaborations:**
-${collab}
+Asked for Reviews:
+Asked for reviews on ${reviews || '0'} tickets/Clients.
 
-**OTF / Additional Tasks:**
-${otf}
+QA and R&D:
+Conducted QA on ${qa || '0'} tasks/features.
+Researched and documented ${rnd || '0'} R&D topics/issues.
 
-**Tomorrow's Commitments:**
+Learning:
+Completed ${learning || '0'} hours of learning.
+
+GPT training data:
+Added ${gptdata || '0'} GPT Training data
+
+OTF/Additional Tasks:
+Completed ${otf || '0'} GPT/OTF tasks.
+
+What do you commit for tomorrow?
 ${commitment}
 `;
 

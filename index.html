@@ -10,7 +10,13 @@
 <body class="bg-gray-100 p-6 text-gray-900">
 
   <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6 space-y-6">
-    <h1 class="text-2xl font-bold text-center">📝 Daily Sum-Up Generator</h1>
+    <h1 class="text-2xl font-bold text-center flex items-center justify-center gap-2">
+      📝 Daily Sum-Up Generator
+      <button id="toggleDarkMode" class="ml-2 flex items-center gap-1 px-2 py-1 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none" title="Toggle dark mode" style="line-height:1;">
+        <span id="darkModeIcon">🌙</span>
+        <span id="darkModeText">Dark Mode</span>
+      </button>
+    </h1>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <label class="block">
@@ -29,7 +35,39 @@
         GPT Training Data Added:
         <input type="number" id="gptdata" class="input-box" min="0" />
       </label>
-      <label class="block col-span-2">
+          </label>
+      <label class="block">
+        ORG Topics Replied:
+        <input type="number" id="org" class="input-box" min="0" />
+      </label>
+      <label class="block">
+        GitHub Issues Replied:
+        <input type="number" id="github" class="input-box" min="0" />
+      </label>
+      <label class="block">
+        Facebook Posts/Comments Replied:
+        <input type="number" id="facebook" class="input-box" min="0" />
+      </label>
+      <label class="block">
+        Issues Assigned:
+        <input type="number" id="issueAssign" class="input-box" min="0" />
+      </label>
+      <label class="block">
+        New Documentation Articles:
+        <input type="number" id="docsNew" class="input-box" min="0" />
+      </label>
+      <label class="block">
+        Updated Documentation Articles:
+        <input type="number" id="docsUpdate" class="input-box" min="0" />
+      </label>
+      <label class="block">
+        Knowledgebase Articles Published:
+        <input type="number" id="docsKb" class="input-box" min="0" />
+      </label>
+      <label class="block">
+        R&D Topics/Issues Documented:
+        <input type="number" id="rnd" class="input-box" min="0" />
+      </label><label class="block col-span-2">
         Meetings Attended:
         <input type="text" id="meetings" class="input-box" />
       </label>
@@ -56,7 +94,7 @@
       <label class="block col-span-2">
         Tomorrow's Commitment:
         <textarea id="commitment" class="input-box" rows="2"></textarea>
-      </label>
+  
     </div>
 
     <div class="flex gap-4">
@@ -69,5 +107,34 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    function updateDarkMode() {
+      if (document.body.classList.contains('dark-mode')) {
+        document.body.classList.remove('bg-gray-100', 'text-gray-900');
+        document.body.classList.add('bg-neutral-900', 'text-gray-100');
+        document.querySelectorAll('.max-w-4xl').forEach(el => {
+          el.classList.remove('bg-white');
+          el.classList.add('bg-neutral-800');
+        });
+        document.getElementById('darkModeIcon').textContent = '☀️';
+        document.getElementById('darkModeText').textContent = 'Light Mode';
+      } else {
+        document.body.classList.remove('bg-neutral-900', 'text-gray-100');
+        document.body.classList.add('bg-gray-100', 'text-gray-900');
+        document.querySelectorAll('.max-w-4xl').forEach(el => {
+          el.classList.remove('bg-neutral-800');
+          el.classList.add('bg-white');
+        });
+        document.getElementById('darkModeIcon').textContent = '🌙';
+        document.getElementById('darkModeText').textContent = 'Dark Mode';
+      }
+    }
+    document.getElementById('toggleDarkMode').onclick = function(e) {
+      e.preventDefault();
+      document.body.classList.toggle('dark-mode');
+      updateDarkMode();
+    };
+    updateDarkMode();
+  </script>
 </body>
 </html>
