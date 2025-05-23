@@ -8,7 +8,13 @@ function generateSummary() {
   const docsNew = document.getElementById('docsNew') ? document.getElementById('docsNew').value : '';
   const docsUpdate = document.getElementById('docsUpdate') ? document.getElementById('docsUpdate').value : '';
   const docsKb = document.getElementById('docsKb') ? document.getElementById('docsKb').value : '';
-  const meetings = document.getElementById('meetings').value;
+  const meetingsCount = parseInt(document.getElementById('meetingsCount')?.value) || 0;
+  let meetingsDetails = [];
+  for (let i = 0; i < meetingsCount; i++) {
+    const val = document.getElementById(`meeting_${i}`)?.value;
+    if (val) meetingsDetails.push(val);
+  }
+  const meetings = meetingsDetails.length > 0 ? meetingsDetails.join('; ') : '';
   const reviews = document.getElementById('reviews').value;
   const qa = document.getElementById('qa').value;
   const rnd = document.getElementById('rnd') ? document.getElementById('rnd').value : '';
@@ -37,7 +43,7 @@ Updated ${docsUpdate || '0'} existing documentation articles.
 Published ${docsKb || '0'} knowledgebase articles.
 
 Meetings:
-Attended ${meetings || '0'} meetings${meetings ? ` (${meetings})` : ''}.
+Attended ${meetingsCount || '0'} meetings${meetings ? ` (${meetings})` : ''}.
 
 Asked for Reviews:
 Asked for reviews on ${reviews || '0'} tickets/Clients.

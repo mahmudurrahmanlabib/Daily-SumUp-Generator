@@ -21,56 +21,58 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <label class="block">
         FreeScout Tickets Replied:
-        <input type="number" id="tickets" class="input-box" min="0" />
+        <input type="number" id="tickets" class="input-box" min="0" value="0" />
       </label>
       <label class="block">
         Live Chats Replied:
-        <input type="number" id="chats" class="input-box" min="0" />
+        <input type="number" id="chats" class="input-box" min="0" value="0" />
       </label>
       <label class="block">
         Reviews Asked:
-        <input type="number" id="reviews" class="input-box" min="0" />
+        <input type="number" id="reviews" class="input-box" min="0" value="0" />
       </label>
       <label class="block">
         GPT Training Data Added:
-        <input type="number" id="gptdata" class="input-box" min="0" />
+        <input type="number" id="gptdata" class="input-box" min="0" value="0" />
       </label>
           </label>
       <label class="block">
         ORG Topics Replied:
-        <input type="number" id="org" class="input-box" min="0" />
+        <input type="number" id="org" class="input-box" min="0" value="0" />
       </label>
       <label class="block">
         GitHub Issues Replied:
-        <input type="number" id="github" class="input-box" min="0" />
+        <input type="number" id="github" class="input-box" min="0" value="0" />
       </label>
       <label class="block">
         Facebook Posts/Comments Replied:
-        <input type="number" id="facebook" class="input-box" min="0" />
+        <input type="number" id="facebook" class="input-box" min="0" value="0" />
       </label>
       <label class="block">
         Issues Assigned:
-        <input type="number" id="issueAssign" class="input-box" min="0" />
+        <input type="number" id="issueAssign" class="input-box" min="0" value="0" />
       </label>
       <label class="block">
         New Documentation Articles:
-        <input type="number" id="docsNew" class="input-box" min="0" />
+        <input type="number" id="docsNew" class="input-box" min="0" value="0" />
       </label>
       <label class="block">
         Updated Documentation Articles:
-        <input type="number" id="docsUpdate" class="input-box" min="0" />
+        <input type="number" id="docsUpdate" class="input-box" min="0" value="0" />
       </label>
       <label class="block">
         Knowledgebase Articles Published:
-        <input type="number" id="docsKb" class="input-box" min="0" />
+        <input type="number" id="docsKb" class="input-box" min="0" value="0" />
       </label>
       <label class="block">
         R&D Topics/Issues Documented:
-        <input type="number" id="rnd" class="input-box" min="0" />
-      </label><label class="block col-span-2">
-        Meetings Attended:
-        <input type="text" id="meetings" class="input-box" />
+        <input type="number" id="rnd" class="input-box" min="0" value="0" />
       </label>
+      <label class="block col-span-2">
+        Number of Meetings Attended:
+        <input type="number" id="meetingsCount" class="input-box" min="0" value="0" onchange="renderMeetingInputs()" />
+      </label>
+      <div id="meetingsInputs" class="col-span-2 space-y-2"></div>
       <label class="block col-span-2">
         Docs Worked On:
         <textarea id="docs" class="input-box" rows="2"></textarea>
@@ -135,6 +137,20 @@
       updateDarkMode();
     };
     updateDarkMode();
+
+    function renderMeetingInputs() {
+      const count = parseInt(document.getElementById('meetingsCount').value) || 0;
+      const container = document.getElementById('meetingsInputs');
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const label = document.createElement('label');
+        label.className = 'block';
+        label.innerHTML = `Meeting ${i + 1} Agenda/Details: <input type="text" class="input-box" id="meeting_${i}" placeholder="e.g. Townhall, Weekly sync, etc." />`;
+        container.appendChild(label);
+      }
+    }
+    document.getElementById('meetingsCount').addEventListener('change', renderMeetingInputs);
+    renderMeetingInputs();
   </script>
 </body>
 </html>
