@@ -9,6 +9,7 @@ function generateSummary() {
     const text = document.getElementById(`orgLinkText_${i}`)?.value.trim();
     if (url && text) orgLinksArr.push(`<${url} | ${text}>`);
     else if (url) orgLinksArr.push(`<${url}>`);
+    else if (text) orgLinksArr.push(text);
   }
   // GitHub
   const github = document.getElementById('github') ? document.getElementById('github').value : '';
@@ -18,6 +19,7 @@ function generateSummary() {
     const text = document.getElementById(`githubLinkText_${i}`)?.value.trim();
     if (url && text) githubLinksArr.push(`<${url} | ${text}>`);
     else if (url) githubLinksArr.push(`<${url}>`);
+    else if (text) githubLinksArr.push(text);
   }
   // Facebook
   const facebook = document.getElementById('facebook') ? document.getElementById('facebook').value : '';
@@ -27,6 +29,7 @@ function generateSummary() {
     const text = document.getElementById(`facebookLinkText_${i}`)?.value.trim();
     if (url && text) facebookLinksArr.push(`<${url} | ${text}>`);
     else if (url) facebookLinksArr.push(`<${url}>`);
+    else if (text) facebookLinksArr.push(text);
   }
   // Issues Assigned
   const issueAssign = document.getElementById('issueAssign') ? document.getElementById('issueAssign').value : '';
@@ -36,6 +39,7 @@ function generateSummary() {
     const text = document.getElementById(`issueAssignLinkText_${i}`)?.value.trim();
     if (url && text) issueAssignLinksArr.push(`<${url} | ${text}>`);
     else if (url) issueAssignLinksArr.push(`<${url}>`);
+    else if (text) issueAssignLinksArr.push(text);
   }
   // Docs New
   const docsNew = document.getElementById('docsNew') ? document.getElementById('docsNew').value : '';
@@ -45,6 +49,7 @@ function generateSummary() {
     const text = document.getElementById(`docsNewLinkText_${i}`)?.value.trim();
     if (url && text) docsNewLinksArr.push(`<${url} | ${text}>`);
     else if (url) docsNewLinksArr.push(`<${url}>`);
+    else if (text) docsNewLinksArr.push(text);
   }
   // Docs Update
   const docsUpdate = document.getElementById('docsUpdate') ? document.getElementById('docsUpdate').value : '';
@@ -54,6 +59,7 @@ function generateSummary() {
     const text = document.getElementById(`docsUpdateLinkText_${i}`)?.value.trim();
     if (url && text) docsUpdateLinksArr.push(`<${url} | ${text}>`);
     else if (url) docsUpdateLinksArr.push(`<${url}>`);
+    else if (text) docsUpdateLinksArr.push(text);
   }
   // Docs KB
   const docsKb = document.getElementById('docsKb') ? document.getElementById('docsKb').value : '';
@@ -63,6 +69,7 @@ function generateSummary() {
     const text = document.getElementById(`docsKbLinkText_${i}`)?.value.trim();
     if (url && text) docsKbLinksArr.push(`<${url} | ${text}>`);
     else if (url) docsKbLinksArr.push(`<${url}>`);
+    else if (text) docsKbLinksArr.push(text);
   }
   // R&D
   const rnd = document.getElementById('rnd') ? document.getElementById('rnd').value : '';
@@ -72,6 +79,7 @@ function generateSummary() {
     const text = document.getElementById(`rndLinkText_${i}`)?.value.trim();
     if (url && text) rndLinksArr.push(`<${url} | ${text}>`);
     else if (url) rndLinksArr.push(`<${url}>`);
+    else if (text) rndLinksArr.push(text);
   }
 
   const meetingsCount = parseInt(document.getElementById('meetingsCount')?.value) || 0;
@@ -99,11 +107,12 @@ function generateSummary() {
     }
   }
 
-  // Format with optional links
+  // Helper to format lines with links/titles
   function formatLine(base, arr) {
     if (arr.length) return `${base} ( ` + arr.join(' , ') + ' )';
     return base;
   }
+
   let orgLine = formatLine(`Replied to ${org || '0'} ORG topics.`, orgLinksArr);
   let githubLine = formatLine(`Replied to/Created ${github || '0'} GitHub issues.`, githubLinksArr);
   let facebookLine = formatLine(`Replied to ${facebook || '0'} Facebook community posts/comments.`, facebookLinksArr);
@@ -134,13 +143,17 @@ function generateSummary() {
   // R&D Section
   let rndCount = 0;
   let rndTopics = [];
+  let rndLinksTopics = [];
   const rndNum = parseInt(document.getElementById('rnd').value) || 0;
+  for (let i = 0; i < rndNum; i++) {
+    const url = document.getElementById(`rndLink_${i}`)?.value.trim();
+    const text = document.getElementById(`rndLinkText_${i}`)?.value.trim();
+    if (url && text) rndLinksTopics.push(`<${url} | ${text}>`);
+    else if (url) rndLinksTopics.push(`<${url}>`);
+    else if (text) rndLinksTopics.push(text);
+  }
   if (rndNum > 0) {
     rndCount += rndNum;
-    for (let i = 0; i < rndNum; i++) {
-      const text = document.getElementById(`rndLinkText_${i}`)?.value.trim();
-      if (text) rndTopics.push(text);
-    }
   }
   // Compose QA / R&D output
   let qaRndOutput = '';
@@ -151,38 +164,26 @@ function generateSummary() {
   }
   if (rndCount > 0) {
     qaRndOutput += `Researched and documented ${rndCount.toString().padStart(2, '0')} R&D topics/issues.`;
-    if (rndTopics.length) qaRndOutput += ` (${rndTopics.join(', ')})`;
+    if (rndLinksTopics.length) qaRndOutput += ` (${rndLinksTopics.join(', ')})`;
     qaRndOutput += '\n';
   }
 
-  // Conducted QA Section (separate from QA / R&D)
-  let conductedQACount = 0;
-  let conductedQATasks = [];
-  // Use different variable names to avoid redeclaration
-  const githubCountQA = parseInt(document.getElementById('github').value) || 0;
-  if (githubCountQA > 0) {
-    conductedQACount += githubCountQA;
-    for (let i = 0; i < githubCountQA; i++) {
-      const text = document.getElementById(`githubLinkText_${i}`)?.value.trim();
-      if (text) conductedQATasks.push(text);
+  // OTF/Additional Tasks with links
+  let otfLines = [];
+  if (otf) {
+    const otfArr = otf.split('\n').filter(Boolean);
+    for (let i = 0; i < otfArr.length; i++) {
+      const line = otfArr[i].trim();
+      // Try to find a link and text for this line (optional: you can add more logic if you want to support links for OTF)
+      otfLines.push(` - ${line}`);
     }
   }
-  const qaTextQA = document.getElementById('qa').value.trim();
-  if (qaTextQA) {
-    conductedQATasks = conductedQATasks.concat(qaTextQA.split(/\n|,/).map(t => t.trim()).filter(Boolean));
-    conductedQACount += qaTextQA.split(/\n|,/).filter(t => t.trim()).length;
-  }
-  // Compose Conducted QA output
-  let conductedQAOutput = '';
-  if (conductedQACount > 0) {
-    conductedQAOutput += `Conducted QA on ${conductedQACount.toString().padStart(2, '0')} tasks/features.`;
-    if (conductedQATasks.length) conductedQAOutput += ` (${conductedQATasks.join(', ')})`;
-    conductedQAOutput += '\n';
-  }
 
-  const summary = `Conducted QA:
-${conductedQAOutput}Tickets and Live Chats:
-Replied to ${tickets || '0'} FreeScout tickets.\nReplied to ${chats || '0'} live chats.\n\nORG, GitHub, and Facebook Replies:\n${orgLine}\n${githubLine}\n${facebookLine}\n\nIssue Assigning:\n${issueAssignLine}\n\nDocumentation (New, Update, Knowledgebase):\n${docsNewLine}\n${docsUpdateLine}\n${docsKbLine}\n\nMeetings:\nAttended ${meetingsCount || '0'} meetings${meetings ? ` (${meetings})` : ''}.\n\nCollaborations:\n${collabCount ? collabDetails.map((c, i) => `  ${i+1}. ${c}`).join('\\n') : 'None'}\n\nAsked for Reviews:\nAsked for reviews on ${reviews || '0'} tickets/Clients.\n\nR&D Topics/Issues Documented:\n${qaRndOutput}\n\nLearning:\n${learning || '-'}\n\nGPT training data:\nAdded ${gptdata || '0'} GPT Training data\n\nOTF/Additional Tasks:\n${otf || '-'}\n`;
+  // Learning section: split by newlines, each as a bullet
+  let learningLines = learning.split('\n').map(l => l.trim()).filter(Boolean);
+  let learningOutput = learningLines.length ? learningLines.map(l => ` - ${l}`).join('\n') : ' -';
+
+  const summary = `Tickets and Live Chats:\n - Replied to ${tickets || '0'} FreeScout tickets.\n - Replied to ${chats || '0'} live chats.\n\nORG, GitHub, and Facebook Replies:\n - ${orgLine}\n - ${githubLine}\n - ${facebookLine}\n\nIssue Assigning:\n - ${issueAssignLine}\n\nDocumentation (New, Update, Knowledgebase):\n - ${docsNewLine}\n - ${docsUpdateLine}\n - ${docsKbLine}\n\nMeetings:\n - Attended ${meetingsCount || '0'} meetings${meetings ? ` (${meetings})` : ''}.\n\nCollaborations:\n${collabCount ? collabDetails.map((c, i) => `  ${i+1}. ${c}`).join('\\n') : 'None'}\n\nAsked for Reviews:\n - Asked for reviews on ${reviews || '0'} tickets/Clients.\n\nR&D Topics/Issues Documented:\n${qaRndOutput ? qaRndOutput.split('\n').filter(Boolean).map(line => ' - ' + line).join('\n') : ''}\n\nLearning:\n${learningOutput}\n\nGPT training data:\n - Added ${gptdata || '0'} GPT Training data\n\nOTF/Additional Tasks:\n${otfLines.length ? otfLines.join('\n') : ' -'}\n`;
 
   document.getElementById('summaryOutput').value = summary;
 }
@@ -208,11 +209,16 @@ function downloadSummary() {
 function generate333Summary() {
   const focus = document.getElementById('threeFocus').value.trim();
   // Collect checked short tasks
-  const shortChecks = Array.from(document.querySelectorAll('.short-check:checked')).map(cb => cb.value);
-  const short = shortChecks.length ? shortChecks.map((v, i) => `${i + 1}. ${v}`).join('\n') : '-';
+  const shortChecks = Array.from(document.querySelectorAll('.short-check:checked')).map(task => task.value);
+  const short = shortChecks.length ? shortChecks.map((task, i) => `${i + 1}. ${task}`).join('\n') : '-';
   // Collect checked maintenance activities
-  const maintChecks = Array.from(document.querySelectorAll('.maint-check:checked')).map(cb => cb.value);
-  const maint = maintChecks.length ? maintChecks.map((v, i) => `${i + 1}. ${v}`).join('\n') : '-';
-  const text = `Most Important Tasks:\n${focus || '-'}\n\nShort Tasks:\n${short}\n\nMaintenance Activities:\n${maint}`;
+  const maintChecks = Array.from(document.querySelectorAll('.maint-check:checked')).map(task => task.value);
+  const maint = maintChecks.length ? maintChecks.map((task, i) => `${i + 1}. ${task}`).join('\n') : '-';
+
+  // Split focus into lines and number each
+  let focusLines = focus.split(/\r?\n/).map(task => task.trim()).filter(Boolean);
+  let focusOutput = focusLines.length ? focusLines.map((task, i) => `${i + 1}. ${task}`).join('\n') : '-';
+
+  const text = `Most Important Tasks:\n${focusOutput}\n\nShort Tasks:\n${short}\n\nMaintenance Activities:\n${maint}`;
   document.getElementById('commitmentOutput').value = text;
 }
