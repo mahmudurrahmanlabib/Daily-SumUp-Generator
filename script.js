@@ -1,13 +1,79 @@
 function generateSummary() {
   const tickets = document.getElementById('tickets').value;
   const chats = document.getElementById('chats').value;
+  // ORG
   const org = document.getElementById('org') ? document.getElementById('org').value : '';
+  let orgLinksArr = [];
+  for (let i = 0; i < (parseInt(org) || 0); i++) {
+    const url = document.getElementById(`orgLink_${i}`)?.value.trim();
+    const text = document.getElementById(`orgLinkText_${i}`)?.value.trim();
+    if (url && text) orgLinksArr.push(`<${url} | ${text}>`);
+    else if (url) orgLinksArr.push(`<${url}>`);
+  }
+  // GitHub
   const github = document.getElementById('github') ? document.getElementById('github').value : '';
+  let githubLinksArr = [];
+  for (let i = 0; i < (parseInt(github) || 0); i++) {
+    const url = document.getElementById(`githubLink_${i}`)?.value.trim();
+    const text = document.getElementById(`githubLinkText_${i}`)?.value.trim();
+    if (url && text) githubLinksArr.push(`<${url} | ${text}>`);
+    else if (url) githubLinksArr.push(`<${url}>`);
+  }
+  // Facebook
   const facebook = document.getElementById('facebook') ? document.getElementById('facebook').value : '';
+  let facebookLinksArr = [];
+  for (let i = 0; i < (parseInt(facebook) || 0); i++) {
+    const url = document.getElementById(`facebookLink_${i}`)?.value.trim();
+    const text = document.getElementById(`facebookLinkText_${i}`)?.value.trim();
+    if (url && text) facebookLinksArr.push(`<${url} | ${text}>`);
+    else if (url) facebookLinksArr.push(`<${url}>`);
+  }
+  // Issues Assigned
   const issueAssign = document.getElementById('issueAssign') ? document.getElementById('issueAssign').value : '';
+  let issueAssignLinksArr = [];
+  for (let i = 0; i < (parseInt(issueAssign) || 0); i++) {
+    const url = document.getElementById(`issueAssignLink_${i}`)?.value.trim();
+    const text = document.getElementById(`issueAssignLinkText_${i}`)?.value.trim();
+    if (url && text) issueAssignLinksArr.push(`<${url} | ${text}>`);
+    else if (url) issueAssignLinksArr.push(`<${url}>`);
+  }
+  // Docs New
   const docsNew = document.getElementById('docsNew') ? document.getElementById('docsNew').value : '';
+  let docsNewLinksArr = [];
+  for (let i = 0; i < (parseInt(docsNew) || 0); i++) {
+    const url = document.getElementById(`docsNewLink_${i}`)?.value.trim();
+    const text = document.getElementById(`docsNewLinkText_${i}`)?.value.trim();
+    if (url && text) docsNewLinksArr.push(`<${url} | ${text}>`);
+    else if (url) docsNewLinksArr.push(`<${url}>`);
+  }
+  // Docs Update
   const docsUpdate = document.getElementById('docsUpdate') ? document.getElementById('docsUpdate').value : '';
+  let docsUpdateLinksArr = [];
+  for (let i = 0; i < (parseInt(docsUpdate) || 0); i++) {
+    const url = document.getElementById(`docsUpdateLink_${i}`)?.value.trim();
+    const text = document.getElementById(`docsUpdateLinkText_${i}`)?.value.trim();
+    if (url && text) docsUpdateLinksArr.push(`<${url} | ${text}>`);
+    else if (url) docsUpdateLinksArr.push(`<${url}>`);
+  }
+  // Docs KB
   const docsKb = document.getElementById('docsKb') ? document.getElementById('docsKb').value : '';
+  let docsKbLinksArr = [];
+  for (let i = 0; i < (parseInt(docsKb) || 0); i++) {
+    const url = document.getElementById(`docsKbLink_${i}`)?.value.trim();
+    const text = document.getElementById(`docsKbLinkText_${i}`)?.value.trim();
+    if (url && text) docsKbLinksArr.push(`<${url} | ${text}>`);
+    else if (url) docsKbLinksArr.push(`<${url}>`);
+  }
+  // R&D
+  const rnd = document.getElementById('rnd') ? document.getElementById('rnd').value : '';
+  let rndLinksArr = [];
+  for (let i = 0; i < (parseInt(rnd) || 0); i++) {
+    const url = document.getElementById(`rndLink_${i}`)?.value.trim();
+    const text = document.getElementById(`rndLinkText_${i}`)?.value.trim();
+    if (url && text) rndLinksArr.push(`<${url} | ${text}>`);
+    else if (url) rndLinksArr.push(`<${url}>`);
+  }
+
   const meetingsCount = parseInt(document.getElementById('meetingsCount')?.value) || 0;
   let meetingsDetails = [];
   for (let i = 0; i < meetingsCount; i++) {
@@ -17,53 +83,106 @@ function generateSummary() {
   const meetings = meetingsDetails.length > 0 ? meetingsDetails.join('; ') : '';
   const reviews = document.getElementById('reviews').value;
   const qa = document.getElementById('qa').value;
-  const rnd = document.getElementById('rnd') ? document.getElementById('rnd').value : '';
   const learning = document.getElementById('learning').value;
   const gptdata = document.getElementById('gptdata').value;
   const otf = document.getElementById('otf').value;
-  const commitment = document.getElementById('commitment').value;
+  const docs = document.getElementById('docs')?.value || '';
 
-  const summary = `## 📝 Daily Sum-Up Report
+  // Collaboration details
+  const collabCount = parseInt(document.getElementById('collabCount')?.value) || 0;
+  let collabDetails = [];
+  for (let i = 0; i < collabCount; i++) {
+    const withWhom = document.getElementById(`collab_with_${i}`)?.value.trim();
+    const aboutWhat = document.getElementById(`collab_about_${i}`)?.value.trim();
+    if (withWhom || aboutWhat) {
+      collabDetails.push(`Collaborated with ${withWhom || '-'} regarding '${aboutWhat || '-'}'`);
+    }
+  }
 
-Tickets and Live Chats:
-Replied to ${tickets || '0'} FreeScout tickets.
-Replied to ${chats || '0'} live chats.
+  // Format with optional links
+  function formatLine(base, arr) {
+    if (arr.length) return `${base} ( ` + arr.join(' , ') + ' )';
+    return base;
+  }
+  let orgLine = formatLine(`Replied to ${org || '0'} ORG topics.`, orgLinksArr);
+  let githubLine = formatLine(`Replied to/Created ${github || '0'} GitHub issues.`, githubLinksArr);
+  let facebookLine = formatLine(`Replied to ${facebook || '0'} Facebook community posts/comments.`, facebookLinksArr);
+  let issueAssignLine = formatLine(`Assigned ${issueAssign || '0'} issues to relevant teams.`, issueAssignLinksArr);
+  let docsNewLine = formatLine(`Wrote ${docsNew || '0'} new documentation articles.`, docsNewLinksArr);
+  let docsUpdateLine = formatLine(`Updated ${docsUpdate || '0'} existing documentation articles.`, docsUpdateLinksArr);
+  let docsKbLine = formatLine(`Published ${docsKb || '0'} knowledgebase articles.`, docsKbLinksArr);
 
-ORG, GitHub, and Facebook Replies:
-Replied to ${org || '0'} ORG topics.
-Replied to ${github || '0'} GitHub issues.
-Replied to ${facebook || '0'} Facebook community posts/comments.
+  // QA / R&D Section
+  let qaCount = 0;
+  let qaTasks = [];
+  // Count GitHub Issues Replied/Created as QA tasks
+  const githubCount = parseInt(document.getElementById('github').value) || 0;
+  if (githubCount > 0) {
+    qaCount += githubCount;
+    for (let i = 0; i < githubCount; i++) {
+      const link = document.getElementById(`githubLink_${i}`)?.value.trim();
+      const text = document.getElementById(`githubLinkText_${i}`)?.value.trim();
+      if (text) qaTasks.push(text);
+    }
+  }
+  // Add any manual QA tasks from textarea
+  const qaText = document.getElementById('qa').value.trim();
+  if (qaText) {
+    qaTasks = qaTasks.concat(qaText.split(/\n|,/).map(t => t.trim()).filter(Boolean));
+    qaCount += qaText.split(/\n|,/).filter(t => t.trim()).length;
+  }
+  // R&D Section
+  let rndCount = 0;
+  let rndTopics = [];
+  const rndNum = parseInt(document.getElementById('rnd').value) || 0;
+  if (rndNum > 0) {
+    rndCount += rndNum;
+    for (let i = 0; i < rndNum; i++) {
+      const text = document.getElementById(`rndLinkText_${i}`)?.value.trim();
+      if (text) rndTopics.push(text);
+    }
+  }
+  // Compose QA / R&D output
+  let qaRndOutput = '';
+  if (qaCount > 0) {
+    qaRndOutput += `Conducted QA on ${qaCount.toString().padStart(2, '0')} tasks/features.`;
+    if (qaTasks.length) qaRndOutput += ` (${qaTasks.join(', ')})`;
+    qaRndOutput += '\n';
+  }
+  if (rndCount > 0) {
+    qaRndOutput += `Researched and documented ${rndCount.toString().padStart(2, '0')} R&D topics/issues.`;
+    if (rndTopics.length) qaRndOutput += ` (${rndTopics.join(', ')})`;
+    qaRndOutput += '\n';
+  }
 
-Issue Assigning:
-Assigned ${issueAssign || '0'} issues to relevant teams.
+  // Conducted QA Section (separate from QA / R&D)
+  let conductedQACount = 0;
+  let conductedQATasks = [];
+  // Use different variable names to avoid redeclaration
+  const githubCountQA = parseInt(document.getElementById('github').value) || 0;
+  if (githubCountQA > 0) {
+    conductedQACount += githubCountQA;
+    for (let i = 0; i < githubCountQA; i++) {
+      const text = document.getElementById(`githubLinkText_${i}`)?.value.trim();
+      if (text) conductedQATasks.push(text);
+    }
+  }
+  const qaTextQA = document.getElementById('qa').value.trim();
+  if (qaTextQA) {
+    conductedQATasks = conductedQATasks.concat(qaTextQA.split(/\n|,/).map(t => t.trim()).filter(Boolean));
+    conductedQACount += qaTextQA.split(/\n|,/).filter(t => t.trim()).length;
+  }
+  // Compose Conducted QA output
+  let conductedQAOutput = '';
+  if (conductedQACount > 0) {
+    conductedQAOutput += `Conducted QA on ${conductedQACount.toString().padStart(2, '0')} tasks/features.`;
+    if (conductedQATasks.length) conductedQAOutput += ` (${conductedQATasks.join(', ')})`;
+    conductedQAOutput += '\n';
+  }
 
-Documentation (New, Update, Knowledgebase):
-Wrote ${docsNew || '0'} new documentation articles.
-Updated ${docsUpdate || '0'} existing documentation articles.
-Published ${docsKb || '0'} knowledgebase articles.
-
-Meetings:
-Attended ${meetingsCount || '0'} meetings${meetings ? ` (${meetings})` : ''}.
-
-Asked for Reviews:
-Asked for reviews on ${reviews || '0'} tickets/Clients.
-
-QA and R&D:
-Conducted QA on ${qa || '0'} tasks/features.
-Researched and documented ${rnd || '0'} R&D topics/issues.
-
-Learning:
-Completed ${learning || '0'} hours of learning.
-
-GPT training data:
-Added ${gptdata || '0'} GPT Training data
-
-OTF/Additional Tasks:
-Completed ${otf || '0'} GPT/OTF tasks.
-
-What do you commit for tomorrow?
-${commitment}
-`;
+  const summary = `Conducted QA:
+${conductedQAOutput}Tickets and Live Chats:
+Replied to ${tickets || '0'} FreeScout tickets.\nReplied to ${chats || '0'} live chats.\n\nORG, GitHub, and Facebook Replies:\n${orgLine}\n${githubLine}\n${facebookLine}\n\nIssue Assigning:\n${issueAssignLine}\n\nDocumentation (New, Update, Knowledgebase):\n${docsNewLine}\n${docsUpdateLine}\n${docsKbLine}\n\nMeetings:\nAttended ${meetingsCount || '0'} meetings${meetings ? ` (${meetings})` : ''}.\n\nCollaborations:\n${collabCount ? collabDetails.map((c, i) => `  ${i+1}. ${c}`).join('\\n') : 'None'}\n\nAsked for Reviews:\nAsked for reviews on ${reviews || '0'} tickets/Clients.\n\nR&D Topics/Issues Documented:\n${qaRndOutput}\n\nLearning:\n${learning || '-'}\n\nGPT training data:\nAdded ${gptdata || '0'} GPT Training data\n\nOTF/Additional Tasks:\n${otf || '-'}\n`;
 
   document.getElementById('summaryOutput').value = summary;
 }
@@ -84,4 +203,16 @@ function downloadSummary() {
   link.href = url;
   link.click();
   URL.revokeObjectURL(url);
+}
+
+function generate333Summary() {
+  const focus = document.getElementById('threeFocus').value.trim();
+  // Collect checked short tasks
+  const shortChecks = Array.from(document.querySelectorAll('.short-check:checked')).map(cb => cb.value);
+  const short = shortChecks.length ? shortChecks.map((v, i) => `${i + 1}. ${v}`).join('\n') : '-';
+  // Collect checked maintenance activities
+  const maintChecks = Array.from(document.querySelectorAll('.maint-check:checked')).map(cb => cb.value);
+  const maint = maintChecks.length ? maintChecks.map((v, i) => `${i + 1}. ${v}`).join('\n') : '-';
+  const text = `Most Important Tasks:\n${focus || '-'}\n\nShort Tasks:\n${short}\n\nMaintenance Activities:\n${maint}`;
+  document.getElementById('commitmentOutput').value = text;
 }

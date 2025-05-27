@@ -18,6 +18,8 @@
       </button>
     </h1>
 
+    <div class="text-lg font-semibold mb-2 text-left">What did you complete today?</div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <label class="block">
         FreeScout Tickets Replied:
@@ -36,47 +38,51 @@
         <input type="number" id="gptdata" class="input-box" min="0" value="0" />
       </label>
           </label>
-      <label class="block">
+      <label class="block col-span-2">
         ORG Topics Replied:
-        <input type="number" id="org" class="input-box" min="0" value="0" />
+        <input type="number" id="org" class="input-box" min="0" value="0" onchange="renderOrgInputs()" />
+        <div id="orgInputs" class="space-y-2 mt-2"></div>
       </label>
-      <label class="block">
-        GitHub Issues Replied:
-        <input type="number" id="github" class="input-box" min="0" value="0" />
+      <label class="block col-span-2">
+        GitHub Issues Replied/Created:
+        <input type="number" id="github" class="input-box" min="0" value="0" onchange="renderGithubInputs()" />
+        <div id="githubInputs" class="space-y-2 mt-2"></div>
       </label>
-      <label class="block">
+      <label class="block col-span-2">
         Facebook Posts/Comments Replied:
-        <input type="number" id="facebook" class="input-box" min="0" value="0" />
+        <input type="number" id="facebook" class="input-box" min="0" value="0" onchange="renderFacebookInputs()" />
+        <div id="facebookInputs" class="space-y-2 mt-2"></div>
       </label>
-      <label class="block">
+      <label class="block col-span-2">
         Issues Assigned:
-        <input type="number" id="issueAssign" class="input-box" min="0" value="0" />
+        <input type="number" id="issueAssign" class="input-box" min="0" value="0" onchange="renderIssueAssignInputs()" />
+        <div id="issueAssignInputs" class="space-y-2 mt-2"></div>
       </label>
-      <label class="block">
+      <label class="block col-span-2">
         New Documentation Articles:
-        <input type="number" id="docsNew" class="input-box" min="0" value="0" />
+        <input type="number" id="docsNew" class="input-box" min="0" value="0" onchange="renderDocsNewInputs()" />
+        <div id="docsNewInputs" class="space-y-2 mt-2"></div>
       </label>
-      <label class="block">
+      <label class="block col-span-2">
         Updated Documentation Articles:
-        <input type="number" id="docsUpdate" class="input-box" min="0" value="0" />
+        <input type="number" id="docsUpdate" class="input-box" min="0" value="0" onchange="renderDocsUpdateInputs()" />
+        <div id="docsUpdateInputs" class="space-y-2 mt-2"></div>
       </label>
-      <label class="block">
+      <label class="block col-span-2">
         Knowledgebase Articles Published:
-        <input type="number" id="docsKb" class="input-box" min="0" value="0" />
+        <input type="number" id="docsKb" class="input-box" min="0" value="0" onchange="renderDocsKbInputs()" />
+        <div id="docsKbInputs" class="space-y-2 mt-2"></div>
       </label>
-      <label class="block">
+      <label class="block col-span-2">
         R&D Topics/Issues Documented:
-        <input type="number" id="rnd" class="input-box" min="0" value="0" />
+        <input type="number" id="rnd" class="input-box" min="0" value="0" onchange="renderRndInputs()" />
+        <div id="rndInputs" class="space-y-2 mt-2"></div>
       </label>
       <label class="block col-span-2">
         Number of Meetings Attended:
         <input type="number" id="meetingsCount" class="input-box" min="0" value="0" onchange="renderMeetingInputs()" />
       </label>
       <div id="meetingsInputs" class="col-span-2 space-y-2"></div>
-      <label class="block col-span-2">
-        Docs Worked On:
-        <textarea id="docs" class="input-box" rows="2"></textarea>
-      </label>
       <label class="block col-span-2">
         QA / R&D:
         <textarea id="qa" class="input-box" rows="2"></textarea>
@@ -86,17 +92,15 @@
         <textarea id="learning" class="input-box" rows="2"></textarea>
       </label>
       <label class="block col-span-2">
-        Collaborations:
-        <textarea id="collab" class="input-box" rows="2"></textarea>
+        Number of Collaborations:
+        <input type="number" id="collabCount" class="input-box" min="0" value="0" onchange="renderCollabInputs()" />
       </label>
+      <div id="collabInputs" class="col-span-2 space-y-2"></div>
       <label class="block col-span-2">
         OTF / Additional Tasks:
         <textarea id="otf" class="input-box" rows="2"></textarea>
       </label>
-      <label class="block col-span-2">
-        Tomorrow's Commitment:
-        <textarea id="commitment" class="input-box" rows="2"></textarea>
-  
+      
     </div>
 
     <div class="flex gap-4">
@@ -106,8 +110,81 @@
     </div>
 
     <textarea id="summaryOutput" readonly class="output-box"></textarea>
-  </div>
 
+    <div class="mt-8">
+      <div class="flex items-center gap-2 mb-2 justify-start">
+        <span class="font-bold text-lg">What do you commit for tomorrow?</span>
+        <button id="threeInfoBtn" class="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none" title="What is the 3-3-3 Method?" style="font-size:1.1rem;line-height:1;">ℹ️</button>
+      </div>
+      <div id="threeInfo" class="hidden mb-2 p-2 rounded bg-blue-50 dark:bg-blue-900 text-blue-900 dark:text-blue-100 text-sm">
+        <b>3-3-3 Method:</b> List your 3 most important tasks, 3 short tasks, and 3 maintenance activities for tomorrow. This helps you focus, make progress, and maintain balance each day.
+      </div>
+      <div class="mb-2">
+        <label class="block font-medium mb-1">Most Important Tasks</label>
+        <textarea id="threeFocus" class="input-box mb-4" rows="3" placeholder="List your most important tasks for tomorrow..."></textarea>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-medium mb-1">Short Tasks</label>
+            <div id="shortTasks" class="text-sm space-y-1">
+              <div class="font-semibold mb-1">🔁 Support & Communication</div>
+              <label><input type="checkbox" class="short-check" value="Ask for reviews on tickets/clients"> Ask for reviews on tickets/clients</label><br>
+              <label><input type="checkbox" class="short-check" value="Respond to Slack threads"> Respond to Slack threads</label><br>
+              <label><input type="checkbox" class="short-check" value="Monitor and reply to ORG topics"> Monitor and reply to ORG topics</label><br>
+              <label><input type="checkbox" class="short-check" value="Respond to Facebook community posts/comments"> Respond to Facebook community posts/comments</label><br>
+              <label><input type="checkbox" class="short-check" value="Scour social media for product mentions"> Scour social media for product mentions</label><br>
+              <label><input type="checkbox" class="short-check" value="Facebook monitoring"> Facebook monitoring</label><br>
+              <label><input type="checkbox" class="short-check" value="Check sum-ups"> Check sum-ups</label><br>
+              <div class="font-semibold mt-2 mb-1">🔧 Issue Handling</div>
+              <label><input type="checkbox" class="short-check" value="Assign issues to relevant teams"> Assign issues to relevant teams</label><br>
+              <label><input type="checkbox" class="short-check" value="Post client issues in Trello or internal tracking"> Post client issues in Trello or internal tracking</label><br>
+              <label><input type="checkbox" class="short-check" value="Collaborate on specific support threads or DMs"> Collaborate on specific support threads or DMs</label><br>
+              <div class="font-semibold mt-2 mb-1">🧠 Knowledge & Learning</div>
+              <label><input type="checkbox" class="short-check" value="Add to GPT training data (when applicable)"> Add to GPT training data (when applicable)</label><br>
+              <label><input type="checkbox" class="short-check" value="Submit daily product data"> Submit daily product data</label><br>
+              <div class="font-semibold mt-2 mb-1">📝 Content & Docs</div>
+              <label><input type="checkbox" class="short-check" value="Review blogs or knowledge content"> Review blogs or knowledge content</label><br>
+              <label><input type="checkbox" class="short-check" value="Update images on DigitalOcean Spaces"> Update images on DigitalOcean Spaces</label><br>
+              <label><input type="checkbox" class="short-check" value="Finalize or review documentation draft"> Finalize or review documentation draft</label><br>
+              <label><input type="checkbox" class="short-check" value="Update screenshots in documentation"> Update screenshots in documentation</label><br>
+            </div>
+          </div>
+          <div>
+            <label class="block font-medium mb-1">Maintenance Activities</label>
+            <div id="maintActivities" class="text-sm">
+              <div class="font-semibold mb-1">📞 Support & Communication Maintenance</div>
+              <label><input type="checkbox" class="maint-check" value="Reply to unassigned and assigned FreeScout tickets"> Reply to unassigned and assigned FreeScout tickets</label><br>
+              <label><input type="checkbox" class="maint-check" value="Reply to live chats"> Reply to live chats</label><br>
+              <label><input type="checkbox" class="maint-check" value="Follow up on unresolved tickets"> Follow up on unresolved tickets</label><br>
+              <label><input type="checkbox" class="maint-check" value="Respond to Facebook community posts/comments"> Respond to Facebook community posts/comments</label><br>
+              <div class="font-semibold mt-2 mb-1">🧪 Issue Handling & Technical QA</div>
+              <label><input type="checkbox" class="maint-check" value="Check and update pending issues"> Check and update pending issues</label><br>
+              <label><input type="checkbox" class="maint-check" value="Test client issues (local and live)"> Test client issues (local and live)</label><br>
+              <label><input type="checkbox" class="maint-check" value="Open or respond to GitHub issues/feature requests"> Open or respond to GitHub issues/feature requests</label><br>
+              <div class="font-semibold mt-2 mb-1">🧠 Learning & Knowledge Management</div>
+              <label><input type="checkbox" class="maint-check" value="Complete scheduled learning"> Complete scheduled learning</label><br>
+              <label><input type="checkbox" class="maint-check" value="Review and document R&D findings"> Review and document R&D findings</label><br>
+              <div class="font-semibold mt-2 mb-1">📝 Documentation & Content</div>
+              <label><input type="checkbox" class="maint-check" value="Write new documentation articles"> Write new documentation articles</label><br>
+              <label><input type="checkbox" class="maint-check" value="Update existing internal documentation"> Update existing internal documentation</label><br>
+              <label><input type="checkbox" class="maint-check" value="Publish knowledge base articles"> Publish knowledge base articles</label><br>
+              <label><input type="checkbox" class="maint-check" value="Evaluation sheet updates"> Evaluation sheet updates</label><br>
+              <label><input type="checkbox" class="maint-check" value="Productivity report updates"> Productivity report updates</label><br>
+              <div class="font-semibold mt-2 mb-1">👥 Collaboration</div>
+              <label><input type="checkbox" class="maint-check" value="Collaborate on Feature discussions and support threads"> Collaborate on Feature discussions and support threads</label><br>
+              <label><input type="checkbox" class="maint-check" value="Ask for reviews on tickets/clients"> Ask for reviews on tickets/clients</label><br>
+              <label><input type="checkbox" class="maint-check" value="Review blogs or knowledge content"> Review blogs or knowledge content</label><br>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-4 mt-4">
+        <button onclick="generate333Summary()" class="btn btn-blue">Generate 3-3-3 Summary</button>
+        <button onclick="copy333Commitment()" class="btn btn-green">Copy to Clipboard</button>
+        <button onclick="download333Summary()" class="btn btn-dark">Download as .txt</button>
+      </div>
+      <textarea id="commitmentOutput" readonly class="output-box mt-4"></textarea>
+    </div>
+  </div>
   <script src="script.js"></script>
   <script>
     function updateDarkMode() {
@@ -151,6 +228,216 @@
     }
     document.getElementById('meetingsCount').addEventListener('change', renderMeetingInputs);
     renderMeetingInputs();
+
+    function renderCollabInputs() {
+      const count = parseInt(document.getElementById('collabCount').value) || 0;
+      const container = document.getElementById('collabInputs');
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const label = document.createElement('label');
+        label.className = 'block';
+        label.innerHTML = `Collaboration ${i + 1}:<br><input type="text" class="input-box mb-1" id="collab_with_${i}" placeholder="With whom? (names, comma separated)" /><br><input type="text" class="input-box" id="collab_about_${i}" placeholder="About what?" />`;
+        container.appendChild(label);
+      }
+    }
+    document.getElementById('collabCount').addEventListener('change', renderCollabInputs);
+    renderCollabInputs();
+
+    function renderGithubInputs() {
+      const count = parseInt(document.getElementById('github').value) || 0;
+      const container = document.getElementById('githubInputs');
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const row = document.createElement('div');
+        row.className = 'flex gap-2';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="githubLink_${i}" placeholder="GitHub link (optional)" />` +
+          `<input type="text" class="input-box flex-1" id="githubLinkText_${i}" placeholder="GitHub link text (optional)" />`;
+        container.appendChild(row);
+      }
+    }
+    document.getElementById('github').addEventListener('change', renderGithubInputs);
+    renderGithubInputs();
+
+    function renderOrgInputs() {
+      const count = parseInt(document.getElementById('org').value) || 0;
+      const container = document.getElementById('orgInputs');
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const row = document.createElement('div');
+        row.className = 'flex gap-2';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="orgLink_${i}" placeholder="ORG link (optional)" />` +
+          `<input type="text" class="input-box flex-1" id="orgLinkText_${i}" placeholder="ORG link text (optional)" />`;
+        container.appendChild(row);
+      }
+    }
+    document.getElementById('org').addEventListener('change', renderOrgInputs);
+    renderOrgInputs();
+
+    function renderFacebookInputs() {
+      const count = parseInt(document.getElementById('facebook').value) || 0;
+      const container = document.getElementById('facebookInputs');
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const row = document.createElement('div');
+        row.className = 'flex gap-2';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="facebookLink_${i}" placeholder="Facebook link (optional)" />` +
+          `<input type="text" class="input-box flex-1" id="facebookLinkText_${i}" placeholder="Facebook link text (optional)" />`;
+        container.appendChild(row);
+      }
+    }
+    document.getElementById('facebook').addEventListener('change', renderFacebookInputs);
+    renderFacebookInputs();
+
+    function renderIssueAssignInputs() {
+      const count = parseInt(document.getElementById('issueAssign').value) || 0;
+      const container = document.getElementById('issueAssignInputs');
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const row = document.createElement('div');
+        row.className = 'flex gap-2';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="issueAssignLink_${i}" placeholder="Issue link (optional)" />` +
+          `<input type="text" class="input-box flex-1" id="issueAssignLinkText_${i}" placeholder="Issue link text (optional)" />`;
+        container.appendChild(row);
+      }
+    }
+    document.getElementById('issueAssign').addEventListener('change', renderIssueAssignInputs);
+    renderIssueAssignInputs();
+
+    function renderDocsNewInputs() {
+      const count = parseInt(document.getElementById('docsNew').value) || 0;
+      const container = document.getElementById('docsNewInputs');
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const row = document.createElement('div');
+        row.className = 'flex gap-2';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsNewLink_${i}" placeholder="New doc link (optional)" />` +
+          `<input type="text" class="input-box flex-1" id="docsNewLinkText_${i}" placeholder="New doc link text (optional)" />`;
+        container.appendChild(row);
+      }
+    }
+    document.getElementById('docsNew').addEventListener('change', renderDocsNewInputs);
+    renderDocsNewInputs();
+
+    function renderDocsUpdateInputs() {
+      const count = parseInt(document.getElementById('docsUpdate').value) || 0;
+      const container = document.getElementById('docsUpdateInputs');
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const row = document.createElement('div');
+        row.className = 'flex gap-2';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsUpdateLink_${i}" placeholder="Updated doc link (optional)" />` +
+          `<input type="text" class="input-box flex-1" id="docsUpdateLinkText_${i}" placeholder="Updated doc link text (optional)" />`;
+        container.appendChild(row);
+      }
+    }
+    document.getElementById('docsUpdate').addEventListener('change', renderDocsUpdateInputs);
+    renderDocsUpdateInputs();
+
+    function renderDocsKbInputs() {
+      const count = parseInt(document.getElementById('docsKb').value) || 0;
+      const container = document.getElementById('docsKbInputs');
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const row = document.createElement('div');
+        row.className = 'flex gap-2';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsKbLink_${i}" placeholder="KB link (optional)" />` +
+          `<input type="text" class="input-box flex-1" id="docsKbLinkText_${i}" placeholder="KB link text (optional)" />`;
+        container.appendChild(row);
+      }
+    }
+    document.getElementById('docsKb').addEventListener('change', renderDocsKbInputs);
+    renderDocsKbInputs();
+
+    function renderRndInputs() {
+      const count = parseInt(document.getElementById('rnd').value) || 0;
+      const container = document.getElementById('rndInputs');
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const row = document.createElement('div');
+        row.className = 'flex gap-2';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="rndLink_${i}" placeholder="R&D link (optional)" />` +
+          `<input type="text" class="input-box flex-1" id="rndLinkText_${i}" placeholder="R&D link text (optional)" />`;
+        container.appendChild(row);
+      }
+    }
+    document.getElementById('rnd').addEventListener('change', renderRndInputs);
+    renderRndInputs();
+
+    // 3-3-3 info toggle
+    document.getElementById('threeInfoBtn').onclick = function() {
+      const info = document.getElementById('threeInfo');
+      info.classList.toggle('hidden');
+    };
+
+    function generate333Summary() {
+      const focus = document.getElementById('threeFocus').value.trim();
+      // Collect checked short tasks
+      const shortChecks = Array.from(document.querySelectorAll('.short-check:checked')).map(cb => cb.value);
+      const short = shortChecks.length ? shortChecks.map((v, i) => `${i + 1}. ${v}`).join('\n') : '-';
+      // Collect checked maintenance activities
+      const maintChecks = Array.from(document.querySelectorAll('.maint-check:checked')).map(cb => cb.value);
+      const maint = maintChecks.length ? maintChecks.map((v, i) => `${i + 1}. ${v}`).join('\n') : '-';
+      const text = `Most Important Tasks:\n${focus || '-'}\n\nShort Tasks:\n${short}\n\nMaintenance Activities:\n${maint}`;
+      document.getElementById('commitmentOutput').value = text;
+    }
+    function copySummary() {
+      const output = document.getElementById('summaryOutput');
+      if (!output.value.trim()) {
+        showPopup('Nothing is there to Copy', true);
+        return;
+      }
+      output.select();
+      document.execCommand('copy');
+      showPopup('Summary copied to clipboard!');
+    }
+    function showPopup(message, isError = false) {
+      // Remove any existing popup
+      const old = document.getElementById('copiedPopup');
+      if (old) old.remove();
+      const popup = document.createElement('div');
+      popup.id = 'copiedPopup';
+      if (isError) {
+        popup.innerHTML = `<span style=\"vertical-align:middle;\">${message}</span>`;
+        popup.style.background = '#ef4444';
+      } else {
+        popup.innerHTML = `<span style=\"vertical-align:middle;\">${message}</span>`;
+        popup.style.background = '#22c55e';
+      }
+      popup.style.position = 'fixed';
+      popup.style.top = '30px';
+      popup.style.left = '50%';
+      popup.style.transform = 'translateX(-50%)';
+      popup.style.color = 'white';
+      popup.style.padding = '0.75em 1.5em';
+      popup.style.borderRadius = '0.5em';
+      popup.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+      popup.style.zIndex = 9999;
+      popup.style.fontWeight = 'bold';
+      popup.style.display = 'flex';
+      popup.style.alignItems = 'center';
+      document.body.appendChild(popup);
+      setTimeout(() => { popup.remove(); }, 1800);
+    }
+    function copy333Commitment() {
+      const output = document.getElementById('commitmentOutput');
+      if (!output.value.trim()) {
+        showPopup('Nothing is there to Copy', true);
+        return;
+      }
+      output.select();
+      document.execCommand('copy');
+      showPopup('3-3-3 Commitment copied to clipboard!');
+    }
+    function download333Summary() {
+      const text = document.getElementById('commitmentOutput').value;
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = '333_commitment.txt';
+      link.href = url;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
   </script>
 </body>
 </html>

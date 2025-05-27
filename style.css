@@ -87,3 +87,8 @@
 .dark-mode .btn-dark:hover {
   background-color: #000;
 }
+
+#maintActivities {
+  max-height: none !important;
+  overflow-y: visible !important;
+}
