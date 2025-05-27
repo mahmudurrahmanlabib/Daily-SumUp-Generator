@@ -126,6 +126,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block font-medium mb-1">Short Tasks</label>
+            <textarea id="manualShortTasks" class="input-box mb-2" rows="2" placeholder="Add custom short tasks, one per line..."></textarea>
             <div id="shortTasks" class="text-sm space-y-1">
               <div class="font-semibold mb-1">🔁 Support & Communication</div>
               <label><input type="checkbox" class="short-check" value="Ask for reviews on tickets/clients"> Ask for reviews on tickets/clients</label><br>
@@ -140,7 +141,7 @@
               <label><input type="checkbox" class="short-check" value="Post client issues in Trello or internal tracking"> Post client issues in Trello or internal tracking</label><br>
               <label><input type="checkbox" class="short-check" value="Collaborate on specific support threads or DMs"> Collaborate on specific support threads or DMs</label><br>
               <div class="font-semibold mt-2 mb-1">🧠 Knowledge & Learning</div>
-              <label><input type="checkbox" class="short-check" value="Add to GPT training data (when applicable)"> Add to GPT training data (when applicable)</label><br>
+              <label><input type="checkbox" class="short-check" value="Add to GPT training data"> Add to GPT training data</label><br>
               <label><input type="checkbox" class="short-check" value="Submit daily product data"> Submit daily product data</label><br>
               <div class="font-semibold mt-2 mb-1">📝 Content & Docs</div>
               <label><input type="checkbox" class="short-check" value="Review blogs or knowledge content"> Review blogs or knowledge content</label><br>
@@ -151,6 +152,7 @@
           </div>
           <div>
             <label class="block font-medium mb-1">Maintenance Activities</label>
+            <textarea id="manualMaintTasks" class="input-box mb-2" rows="2" placeholder="Add custom maintenance activities, one per line..."></textarea>
             <div id="maintActivities" class="text-sm">
               <div class="font-semibold mb-1">📞 Support & Communication Maintenance</div>
               <label><input type="checkbox" class="maint-check" value="Reply to unassigned and assigned FreeScout tickets"> Reply to unassigned and assigned FreeScout tickets</label><br>
@@ -179,7 +181,7 @@
         </div>
       </div>
       <div class="flex gap-4 mt-4">
-        <button onclick="generate333Summary()" class="btn btn-blue">Generate 3-3-3 Summary</button>
+        <button onclick="generate333Summary()" class="btn btn-blue">Generate Commitments</button>
         <button onclick="copy333Commitment()" class="btn btn-green">Copy to Clipboard</button>
         <button onclick="download333Summary()" class="btn btn-dark">Download as .txt</button>
         <button onclick="clear333Output()" class="btn btn-red">Clear</button>
@@ -248,12 +250,21 @@
     function renderGithubInputs() {
       const count = parseInt(document.getElementById('github').value) || 0;
       const container = document.getElementById('githubInputs');
+      // Cache current values
+      const cached = [];
+      for (let i = 0; i < container.children.length; i++) {
+        const link = container.querySelector(`#githubLink_${i}`)?.value || '';
+        const text = container.querySelector(`#githubLinkText_${i}`)?.value || '';
+        cached.push({ link, text });
+      }
       container.innerHTML = '';
       for (let i = 0; i < count; i++) {
         const row = document.createElement('div');
         row.className = 'flex gap-2';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="githubLink_${i}" placeholder="GitHub link (optional)" />` +
-          `<input type="text" class="input-box flex-1" id="githubLinkText_${i}" placeholder="GitHub link text (optional)" />`;
+        const cachedLink = cached[i]?.link || '';
+        const cachedText = cached[i]?.text || '';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="githubLink_${i}" placeholder="Link" value="${cachedLink}" />` +
+          `<input type="text" class="input-box flex-1" id="githubLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
         container.appendChild(row);
       }
     }
@@ -263,12 +274,20 @@
     function renderOrgInputs() {
       const count = parseInt(document.getElementById('org').value) || 0;
       const container = document.getElementById('orgInputs');
+      const cached = [];
+      for (let i = 0; i < container.children.length; i++) {
+        const link = container.querySelector(`#orgLink_${i}`)?.value || '';
+        const text = container.querySelector(`#orgLinkText_${i}`)?.value || '';
+        cached.push({ link, text });
+      }
       container.innerHTML = '';
       for (let i = 0; i < count; i++) {
         const row = document.createElement('div');
         row.className = 'flex gap-2';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="orgLink_${i}" placeholder="ORG link (optional)" />` +
-          `<input type="text" class="input-box flex-1" id="orgLinkText_${i}" placeholder="ORG link text (optional)" />`;
+        const cachedLink = cached[i]?.link || '';
+        const cachedText = cached[i]?.text || '';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="orgLink_${i}" placeholder="Link" value="${cachedLink}" />` +
+          `<input type="text" class="input-box flex-1" id="orgLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
         container.appendChild(row);
       }
     }
@@ -278,12 +297,20 @@
     function renderFacebookInputs() {
       const count = parseInt(document.getElementById('facebook').value) || 0;
       const container = document.getElementById('facebookInputs');
+      const cached = [];
+      for (let i = 0; i < container.children.length; i++) {
+        const link = container.querySelector(`#facebookLink_${i}`)?.value || '';
+        const text = container.querySelector(`#facebookLinkText_${i}`)?.value || '';
+        cached.push({ link, text });
+      }
       container.innerHTML = '';
       for (let i = 0; i < count; i++) {
         const row = document.createElement('div');
         row.className = 'flex gap-2';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="facebookLink_${i}" placeholder="Facebook link (optional)" />` +
-          `<input type="text" class="input-box flex-1" id="facebookLinkText_${i}" placeholder="Facebook link text (optional)" />`;
+        const cachedLink = cached[i]?.link || '';
+        const cachedText = cached[i]?.text || '';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="facebookLink_${i}" placeholder="Link" value="${cachedLink}" />` +
+          `<input type="text" class="input-box flex-1" id="facebookLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
         container.appendChild(row);
       }
     }
@@ -293,12 +320,20 @@
     function renderIssueAssignInputs() {
       const count = parseInt(document.getElementById('issueAssign').value) || 0;
       const container = document.getElementById('issueAssignInputs');
+      const cached = [];
+      for (let i = 0; i < container.children.length; i++) {
+        const link = container.querySelector(`#issueAssignLink_${i}`)?.value || '';
+        const text = container.querySelector(`#issueAssignLinkText_${i}`)?.value || '';
+        cached.push({ link, text });
+      }
       container.innerHTML = '';
       for (let i = 0; i < count; i++) {
         const row = document.createElement('div');
         row.className = 'flex gap-2';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="issueAssignLink_${i}" placeholder="Issue link (optional)" />` +
-          `<input type="text" class="input-box flex-1" id="issueAssignLinkText_${i}" placeholder="Issue link text (optional)" />`;
+        const cachedLink = cached[i]?.link || '';
+        const cachedText = cached[i]?.text || '';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="issueAssignLink_${i}" placeholder="Link" value="${cachedLink}" />` +
+          `<input type="text" class="input-box flex-1" id="issueAssignLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
         container.appendChild(row);
       }
     }
@@ -308,12 +343,20 @@
     function renderDocsNewInputs() {
       const count = parseInt(document.getElementById('docsNew').value) || 0;
       const container = document.getElementById('docsNewInputs');
+      const cached = [];
+      for (let i = 0; i < container.children.length; i++) {
+        const link = container.querySelector(`#docsNewLink_${i}`)?.value || '';
+        const text = container.querySelector(`#docsNewLinkText_${i}`)?.value || '';
+        cached.push({ link, text });
+      }
       container.innerHTML = '';
       for (let i = 0; i < count; i++) {
         const row = document.createElement('div');
         row.className = 'flex gap-2';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsNewLink_${i}" placeholder="New doc link (optional)" />` +
-          `<input type="text" class="input-box flex-1" id="docsNewLinkText_${i}" placeholder="New doc link text (optional)" />`;
+        const cachedLink = cached[i]?.link || '';
+        const cachedText = cached[i]?.text || '';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsNewLink_${i}" placeholder="Link" value="${cachedLink}" />` +
+          `<input type="text" class="input-box flex-1" id="docsNewLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
         container.appendChild(row);
       }
     }
@@ -323,12 +366,20 @@
     function renderDocsUpdateInputs() {
       const count = parseInt(document.getElementById('docsUpdate').value) || 0;
       const container = document.getElementById('docsUpdateInputs');
+      const cached = [];
+      for (let i = 0; i < container.children.length; i++) {
+        const link = container.querySelector(`#docsUpdateLink_${i}`)?.value || '';
+        const text = container.querySelector(`#docsUpdateLinkText_${i}`)?.value || '';
+        cached.push({ link, text });
+      }
       container.innerHTML = '';
       for (let i = 0; i < count; i++) {
         const row = document.createElement('div');
         row.className = 'flex gap-2';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsUpdateLink_${i}" placeholder="Updated doc link (optional)" />` +
-          `<input type="text" class="input-box flex-1" id="docsUpdateLinkText_${i}" placeholder="Updated doc link text (optional)" />`;
+        const cachedLink = cached[i]?.link || '';
+        const cachedText = cached[i]?.text || '';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsUpdateLink_${i}" placeholder="Link" value="${cachedLink}" />` +
+          `<input type="text" class="input-box flex-1" id="docsUpdateLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
         container.appendChild(row);
       }
     }
@@ -338,12 +389,20 @@
     function renderDocsKbInputs() {
       const count = parseInt(document.getElementById('docsKb').value) || 0;
       const container = document.getElementById('docsKbInputs');
+      const cached = [];
+      for (let i = 0; i < container.children.length; i++) {
+        const link = container.querySelector(`#docsKbLink_${i}`)?.value || '';
+        const text = container.querySelector(`#docsKbLinkText_${i}`)?.value || '';
+        cached.push({ link, text });
+      }
       container.innerHTML = '';
       for (let i = 0; i < count; i++) {
         const row = document.createElement('div');
         row.className = 'flex gap-2';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsKbLink_${i}" placeholder="KB link (optional)" />` +
-          `<input type="text" class="input-box flex-1" id="docsKbLinkText_${i}" placeholder="KB link text (optional)" />`;
+        const cachedLink = cached[i]?.link || '';
+        const cachedText = cached[i]?.text || '';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsKbLink_${i}" placeholder="Link" value="${cachedLink}" />` +
+          `<input type="text" class="input-box flex-1" id="docsKbLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
         container.appendChild(row);
       }
     }
@@ -353,12 +412,20 @@
     function renderRndInputs() {
       const count = parseInt(document.getElementById('rnd').value) || 0;
       const container = document.getElementById('rndInputs');
+      const cached = [];
+      for (let i = 0; i < container.children.length; i++) {
+        const link = container.querySelector(`#rndLink_${i}`)?.value || '';
+        const text = container.querySelector(`#rndLinkText_${i}`)?.value || '';
+        cached.push({ link, text });
+      }
       container.innerHTML = '';
       for (let i = 0; i < count; i++) {
         const row = document.createElement('div');
         row.className = 'flex gap-2';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="rndLink_${i}" placeholder="R&D link (optional)" />` +
-          `<input type="text" class="input-box flex-1" id="rndLinkText_${i}" placeholder="R&D link text (optional)" />`;
+        const cachedLink = cached[i]?.link || '';
+        const cachedText = cached[i]?.text || '';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="rndLink_${i}" placeholder="Link" value="${cachedLink}" />` +
+          `<input type="text" class="input-box flex-1" id="rndLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
         container.appendChild(row);
       }
     }
@@ -375,11 +442,22 @@
       const focus = document.getElementById('threeFocus').value.trim();
       // Collect checked short tasks
       const shortChecks = Array.from(document.querySelectorAll('.short-check:checked')).map(cb => cb.value);
-      const short = shortChecks.length ? shortChecks.map((v, i) => `${i + 1}. ${v}`).join('\n') : '-';
-      // Collect checked maintenance activities
+      const manualShort = document.getElementById('manualShortTasks').value.trim().split(/\n|\r/).map(v => v.trim()).filter(Boolean);
+      const allShort = [...manualShort, ...shortChecks];
       const maintChecks = Array.from(document.querySelectorAll('.maint-check:checked')).map(cb => cb.value);
-      const maint = maintChecks.length ? maintChecks.map((v, i) => `${i + 1}. ${v}`).join('\n') : '-';
-      const text = `Most Important Tasks:\n${focus || '-'}\n\nShort Tasks:\n${short}\n\nMaintenance Activities:\n${maint}`;
+      const manualMaint = document.getElementById('manualMaintTasks').value.trim().split(/\n|\r/).map(v => v.trim()).filter(Boolean);
+      const allMaint = [...manualMaint, ...maintChecks];
+
+      // Format as bullet lists
+      const formatList = arr => arr.length ? arr.map(v => ` - ${v}`).join('\n') : '-';
+
+      const focusList = focus
+        ? focus.split(/\n|\r/).map(line => line.trim()).filter(Boolean).map(v => ` - ${v}`).join('\n')
+        : '-';
+      const short = formatList(allShort);
+      const maint = formatList(allMaint);
+
+      const text = `Most Important Tasks:\n${focusList}\n\nShort Tasks:\n${short}\n\nMaintenance Activities:\n${maint}`;
       document.getElementById('commitmentOutput').value = text;
     }
     function copySummary() {
@@ -467,5 +545,8 @@
       document.getElementById('commitmentOutput').value = '';
     }
   </script>
+  <div class="text-center text-xs text-gray-500 mt-8 mb-2">
+    Maintained By Support Team at weDevs
+  </div>
 </body>
 </html>

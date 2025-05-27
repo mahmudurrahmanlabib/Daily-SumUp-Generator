@@ -115,3 +115,66 @@
   max-height: none !important;
   overflow-y: visible !important;
 }
+
+@media (max-width: 640px) {
+  .max-w-4xl {
+    padding: 0.5rem !important;
+    width: 100vw !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .output-box, .input-box, textarea.input-box {
+    font-size: 1rem !important;
+    padding: 0.5rem !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+  .flex.gap-2 {
+    gap: 0.5rem !important;
+    flex-direction: column !important;
+  }
+  .btn, .btn-blue, .btn-green, .btn-dark, .btn-red {
+    width: 100% !important;
+    margin-bottom: 0.5rem !important;
+    font-size: 1rem !important;
+    padding: 0.75rem 0 !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .space-y-2 > * + * {
+    margin-top: 0.5rem !important;
+  }
+  .mb-2, .mb-4, .mt-2, .mt-4, .mt-8 {
+    margin-bottom: 0.75rem !important;
+    margin-top: 0.75rem !important;
+  }
+  .rounded-xl, .rounded, .rounded-full {
+    border-radius: 0.5rem !important;
+  }
+  .shadow-md {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+  }
+  label.block {
+    font-size: 1rem !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+  h1.text-2xl {
+    font-size: 1.25rem !important;
+    word-break: break-word !important;
+  }
+  .col-span-2 {
+    grid-column: span 1 / span 1 !important;
+  }
+  .gap-4 {
+    gap: 0.75rem !important;
+  }
+  .mt-8 {
+    margin-top: 1.25rem !important;
+  }
+}
