@@ -107,6 +107,7 @@
       <button onclick="generateSummary()" class="btn btn-blue">Generate Summary</button>
       <button onclick="copySummary()" class="btn btn-green">Copy to Clipboard</button>
       <button onclick="downloadSummary()" class="btn btn-dark">Download as .txt</button>
+      <button onclick="clearSummaryOutput()" class="btn btn-red">Clear</button>
     </div>
 
     <textarea id="summaryOutput" readonly class="output-box"></textarea>
@@ -181,6 +182,7 @@
         <button onclick="generate333Summary()" class="btn btn-blue">Generate 3-3-3 Summary</button>
         <button onclick="copy333Commitment()" class="btn btn-green">Copy to Clipboard</button>
         <button onclick="download333Summary()" class="btn btn-dark">Download as .txt</button>
+        <button onclick="clear333Output()" class="btn btn-red">Clear</button>
       </div>
       <textarea id="commitmentOutput" readonly class="output-box mt-4"></textarea>
     </div>
@@ -428,15 +430,41 @@
       document.execCommand('copy');
       showPopup('3-3-3 Commitment copied to clipboard!');
     }
-    function download333Summary() {
-      const text = document.getElementById('commitmentOutput').value;
+    function downloadSummary() {
+      const text = document.getElementById('summaryOutput').value;
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      const dateStr = `${yyyy}-${mm}-${dd}`;
       const blob = new Blob([text], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.download = '333_commitment.txt';
+      link.download = `daily_summary_${dateStr}.txt`;
       link.href = url;
       link.click();
       URL.revokeObjectURL(url);
+    }
+    function download333Summary() {
+      const text = document.getElementById('commitmentOutput').value;
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      const dateStr = `${yyyy}-${mm}-${dd}`;
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = `333_commitment_${dateStr}.txt`;
+      link.href = url;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+    function clearSummaryOutput() {
+      document.getElementById('summaryOutput').value = '';
+    }
+    function clear333Output() {
+      document.getElementById('commitmentOutput').value = '';
     }
   </script>
 </body>
