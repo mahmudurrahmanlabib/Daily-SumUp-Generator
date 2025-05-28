@@ -222,11 +222,18 @@
     function renderMeetingInputs() {
       const count = parseInt(document.getElementById('meetingsCount').value) || 0;
       const container = document.getElementById('meetingsInputs');
+      // Cache current values
+      const cached = [];
+      for (let i = 0; i < container.children.length; i++) {
+        const val = container.querySelector(`#meeting_${i}`)?.value || '';
+        cached.push(val);
+      }
       container.innerHTML = '';
       for (let i = 0; i < count; i++) {
+        const cachedVal = cached[i] || '';
         const label = document.createElement('label');
         label.className = 'block';
-        label.innerHTML = `Meeting ${i + 1} Agenda/Details: <input type="text" class="input-box" id="meeting_${i}" placeholder="e.g. Townhall, Weekly sync, etc." />`;
+        label.innerHTML = `Meeting ${i + 1} Agenda/Details: <input type="text" class="input-box" id="meeting_${i}" placeholder="e.g. Townhall, Weekly sync, etc." value="${cachedVal}" />`;
         container.appendChild(label);
       }
     }
@@ -236,11 +243,20 @@
     function renderCollabInputs() {
       const count = parseInt(document.getElementById('collabCount').value) || 0;
       const container = document.getElementById('collabInputs');
+      // Cache current values
+      const cached = [];
+      for (let i = 0; i < container.children.length; i++) {
+        const withVal = container.querySelector(`#collab_with_${i}`)?.value || '';
+        const aboutVal = container.querySelector(`#collab_about_${i}`)?.value || '';
+        cached.push({ withVal, aboutVal });
+      }
       container.innerHTML = '';
       for (let i = 0; i < count; i++) {
+        const cachedWith = cached[i]?.withVal || '';
+        const cachedAbout = cached[i]?.aboutVal || '';
         const label = document.createElement('label');
         label.className = 'block';
-        label.innerHTML = `Collaboration ${i + 1}:<br><input type="text" class="input-box mb-1" id="collab_with_${i}" placeholder="With whom? (names, comma separated)" /><br><input type="text" class="input-box" id="collab_about_${i}" placeholder="About what?" />`;
+        label.innerHTML = `Collaboration ${i + 1}:<br><input type="text" class="input-box mb-1" id="collab_with_${i}" placeholder="With whom? (names, comma separated)" value="${cachedWith}" /><br><input type="text" class="input-box" id="collab_about_${i}" placeholder="About what?" value="${cachedAbout}" />`;
         container.appendChild(label);
       }
     }
