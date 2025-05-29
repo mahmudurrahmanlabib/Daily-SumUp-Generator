@@ -102,8 +102,20 @@ function generateSummary() {
   for (let i = 0; i < collabCount; i++) {
     const withWhom = document.getElementById(`collab_with_${i}`)?.value.trim();
     const aboutWhat = document.getElementById(`collab_about_${i}`)?.value.trim();
-    if (withWhom || aboutWhat) {
-      collabDetails.push(`Collaborated with ${withWhom || '-'} regarding '${aboutWhat || '-'}'`);
+    if (withWhom && aboutWhat) {
+      // Split names by comma and clean up whitespace
+      const names = withWhom.split(',').map(name => name.trim()).filter(Boolean);
+      
+      let formattedNames;
+      if (names.length === 1) {
+        formattedNames = names[0];
+      } else if (names.length === 2) {
+        formattedNames = `${names[0]} and ${names[1]}`;
+      } else if (names.length >= 3) {
+        formattedNames = `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+      }
+      
+      collabDetails.push(` - Collaborated with ${formattedNames} regarding '${aboutWhat}'`);
     }
   }
 
@@ -183,7 +195,43 @@ function generateSummary() {
   let learningLines = learning.split('\n').map(l => l.trim()).filter(Boolean);
   let learningOutput = learningLines.length ? learningLines.map(l => ` - ${l}`).join('\n') : ' -';
 
-  const summary = `Tickets and Live Chats:\n - Replied to ${tickets || '0'} FreeScout tickets.\n - Replied to ${chats || '0'} live chats.\n\nORG, GitHub, and Facebook Replies:\n - ${orgLine}\n - ${githubLine}\n - ${facebookLine}\n\nIssue Assigning:\n - ${issueAssignLine}\n\nDocumentation (New, Update, Knowledgebase):\n - ${docsNewLine}\n - ${docsUpdateLine}\n - ${docsKbLine}\n\nMeetings:\n - Attended ${meetingsCount || '0'} meetings${meetings ? ` (${meetings})` : ''}.\n\nCollaborations:\n${collabCount ? collabDetails.map((c, i) => `  ${i+1}. ${c}`).join('\\n') : 'None'}\n\nAsked for Reviews:\n - Asked for reviews on ${reviews || '0'} tickets/Clients.\n\nR&D Topics/Issues Documented:\n${qaRndOutput ? qaRndOutput.split('\n').filter(Boolean).map(line => ' - ' + line).join('\n') : ''}\n\nLearning:\n${learningOutput}\n\nGPT training data:\n - Added ${gptdata || '0'} GPT Training data\n\nOTF/Additional Tasks:\n${otfLines.length ? otfLines.join('\n') : ' -'}\n`;
+  const summary = `Tickets and Live Chats:
+ - Replied to ${tickets || '0'} FreeScout tickets.
+ - Replied to ${chats || '0'} live chats.
+
+ORG, GitHub, and Facebook Replies:
+ - ${orgLine}
+ - ${githubLine}
+ - ${facebookLine}
+
+Issue Assigning:
+ - ${issueAssignLine}
+
+Documentation (New, Update, Knowledgebase):
+ - ${docsNewLine}
+ - ${docsUpdateLine}
+ - ${docsKbLine}
+
+Meetings:
+ - Attended ${meetingsCount || '0'} meetings${meetings ? ` (${meetings})` : ''}.
+
+Collaborations:
+${collabCount ? collabDetails.join('\n') : ' -'}
+
+Asked for Reviews:
+ - Asked for reviews on ${reviews || '0'} tickets/Clients.
+
+R&D Topics/Issues Documented:
+${qaRndOutput ? qaRndOutput.split('\n').filter(Boolean).map(line => ' - ' + line).join('\n') : ''}
+
+Learning:
+${learningOutput}
+
+GPT training data:
+ - Added ${gptdata || '0'} GPT Training data
+
+OTF/Additional Tasks:
+${otfLines.length ? otfLines.join('\n') : ' -'}\n`;
 
   document.getElementById('summaryOutput').value = summary;
 }
