@@ -106,7 +106,7 @@
     <div class="flex gap-4">
       <button onclick="generateSummary()" class="btn btn-blue">Generate Summary</button>
       <button onclick="copySummary()" class="btn btn-green">Copy to Clipboard</button>
-      <button onclick="downloadSummary()" class="btn btn-dark">Download as .txt</button>
+      <button onclick="saveToObsidian()" class="btn btn-dark">Save as Markdown</button>
       <button onclick="clearSummaryOutput()" class="btn btn-red">Clear</button>
     </div>
 
@@ -118,11 +118,11 @@
         <button id="threeInfoBtn" class="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none" title="What is the 3-3-3 Method?" style="font-size:1.1rem;line-height:1;">ℹ️</button>
       </div>
       <div id="threeInfo" class="hidden mb-2 p-2 rounded bg-blue-50 dark:bg-blue-900 text-blue-900 dark:text-blue-100 text-sm">
-        <b>3-3-3 Method:</b> List your 3 most important tasks, 3 short tasks, and 3 maintenance activities for tomorrow. This helps you focus, make progress, and maintain balance each day.
+        <b>3-3-3 Method:</b> List your most important task that will take 3 hours of deep focus, 3 short tasks, and 3 maintenance activities for tomorrow. This helps you focus, make progress, and maintain balance each day.
       </div>
       <div class="mb-2">
-        <label class="block font-medium mb-1">Most Important Tasks</label>
-        <textarea id="threeFocus" class="input-box mb-4" rows="3" placeholder="List your most important tasks for tomorrow..."></textarea>
+        <label class="block font-medium mb-1">Most Important Task (3 Hours Deep Focus)</label>
+        <textarea id="threeFocus" class="input-box mb-4" rows="3" placeholder="What is your most important task that requires 3 hours of deep focus?"></textarea>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block font-medium mb-1">Short Tasks</label>
@@ -183,7 +183,7 @@
       <div class="flex gap-4 mt-4">
         <button onclick="generate333Summary()" class="btn btn-blue">Generate Commitments</button>
         <button onclick="copy333Commitment()" class="btn btn-green">Copy to Clipboard</button>
-        <button onclick="download333Summary()" class="btn btn-dark">Download as .txt</button>
+        <button onclick="save333ToObsidian()" class="btn btn-dark">Save as Markdown</button>
         <button onclick="clear333Output()" class="btn btn-red">Clear</button>
       </div>
       <textarea id="commitmentOutput" readonly class="output-box mt-4"></textarea>

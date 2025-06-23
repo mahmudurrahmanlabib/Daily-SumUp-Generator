@@ -243,15 +243,27 @@ function copySummary() {
   alert('Summary copied to clipboard!');
 }
 
-function downloadSummary() {
+function shareToGoogleKeep() {
   const text = document.getElementById('summaryOutput').value;
-  const blob = new Blob([text], { type: 'text/plain' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.download = 'daily_summary.txt';
-  link.href = url;
-  link.click();
-  URL.revokeObjectURL(url);
+  if (!text.trim()) {
+    showPopup('Nothing to share', true);
+    return;
+  }
+
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const dateStr = `${yyyy}-${mm}-${dd}`;
+  
+  // Create the Google Keep URL with the note title and content
+  const title = encodeURIComponent(`Daily Summary ${dateStr}`);
+  const content = encodeURIComponent(text);
+  const keepUrl = `https://keep.google.com/u/0/#create/text=${content}`;
+
+  // Open Google Keep in a new window
+  window.open(keepUrl, '_blank', 'width=800,height=600');
+  showPopup('Opening Google Keep...');
 }
 
 function generate333Summary() {
@@ -269,4 +281,107 @@ function generate333Summary() {
 
   const text = `Most Important Tasks:\n${focusOutput}\n\nShort Tasks:\n${short}\n\nMaintenance Activities:\n${maint}`;
   document.getElementById('commitmentOutput').value = text;
+}
+
+function share333ToGoogleKeep() {
+  const text = document.getElementById('commitmentOutput').value;
+  if (!text.trim()) {
+    showPopup('Nothing to share', true);
+    return;
+  }
+
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowStr = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
+  
+  // Create the Google Keep URL with the note title and content
+  const title = encodeURIComponent(`Commitments for ${tomorrowStr}`);
+  const content = encodeURIComponent(text);
+  const keepUrl = `https://keep.google.com/u/0/#create/text=${content}`;
+
+  // Open Google Keep in a new window
+  window.open(keepUrl, '_blank', 'width=800,height=600');
+  showPopup('Opening Google Keep...');
+}
+
+function saveToObsidian() {
+  const text = document.getElementById('summaryOutput').value;
+  if (!text.trim()) {
+    showPopup('Nothing to save', true);
+    return;
+  }
+
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const dateStr = `${yyyy}-${mm}-${dd}`;
+  
+  // Create Obsidian-compatible markdown content with frontmatter
+  const frontmatter = [
+    '---',
+    `date: ${dateStr}`,
+    'type: daily-summary',
+    'tags: [daily-summary, work-log]',
+    '---',
+    '',
+    `# ${dateStr}`,
+    '',
+  ].join('\n');
+
+  const content = frontmatter + text;
+  
+  // Create and download the markdown file
+  const blob = new Blob([content], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.download = `${dateStr}.md`;
+  link.href = url;
+  link.click();
+  URL.revokeObjectURL(url);
+  showPopup('Markdown file saved!');
+}
+
+function save333ToObsidian() {
+  const text = document.getElementById('commitmentOutput').value;
+  if (!text.trim()) {
+    showPopup('Nothing to save', true);
+    return;
+  }
+
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const yyyy = tomorrow.getFullYear();
+  const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+  const dd = String(tomorrow.getDate()).padStart(2, '0');
+  const dateStr = `${yyyy}-${mm}-${dd}`;
+  
+  // Create Obsidian-compatible markdown content with frontmatter
+  const frontmatter = [
+    '---',
+    `date: ${dateStr}`,
+    'type: daily-commitments',
+    'tags: [daily-commitments, tasks, planning]',
+    '---',
+    '',
+    `# ${dateStr}`,
+    '',
+  ].join('\n');
+
+  const content = frontmatter + text;
+  
+  // Create and download the markdown file
+  const blob = new Blob([content], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.download = `tasks_${dateStr}.md`;
+  link.href = url;
+  link.click();
+  URL.revokeObjectURL(url);
+  showPopup('Markdown file saved!');
 }
