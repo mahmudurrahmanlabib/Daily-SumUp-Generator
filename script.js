@@ -93,7 +93,6 @@ function generateSummary() {
   const qa = document.getElementById('qa').value;
   const learning = document.getElementById('learning').value;
   const gptdata = document.getElementById('gptdata').value;
-  const otf = document.getElementById('otf').value;
   const docs = document.getElementById('docs')?.value || '';
 
   // Collaboration details
@@ -182,13 +181,13 @@ function generateSummary() {
 
   // OTF/Additional Tasks with links
   let otfLines = [];
-  if (otf) {
-    const otfArr = otf.split('\n').filter(Boolean);
-    for (let i = 0; i < otfArr.length; i++) {
-      const line = otfArr[i].trim();
-      // Try to find a link and text for this line (optional: you can add more logic if you want to support links for OTF)
-      otfLines.push(` - ${line}`);
-    }
+  const otfCount = parseInt(document.getElementById('otfCount')?.value) || 0;
+  for (let i = 0; i < otfCount; i++) {
+    const text = document.getElementById(`otfText_${i}`)?.value.trim();
+    const link = document.getElementById(`otfLink_${i}`)?.value.trim();
+    if (text && link) otfLines.push(` - <${link} | ${text}>`);
+    else if (text) otfLines.push(` - ${text}`);
+    else if (link) otfLines.push(` - <${link}>`);
   }
 
   // Learning section: split by newlines, each as a bullet

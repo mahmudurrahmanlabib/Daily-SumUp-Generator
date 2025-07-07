@@ -97,8 +97,9 @@
       </label>
       <div id="collabInputs" class="col-span-2 space-y-2"></div>
       <label class="block col-span-2">
-        OTF / Additional Tasks:
-        <textarea id="otf" class="input-box" rows="2"></textarea>
+        Number of OTF / Additional Tasks:
+        <input type="number" id="otfCount" class="input-box" min="0" value="0" onchange="renderOtfInputs()" />
+        <div id="otfInputs" class="space-y-2 mt-2"></div>
       </label>
       
     </div>
@@ -279,8 +280,8 @@
         row.className = 'flex gap-2';
         const cachedLink = cached[i]?.link || '';
         const cachedText = cached[i]?.text || '';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="githubLink_${i}" placeholder="Link" value="${cachedLink}" />` +
-          `<input type="text" class="input-box flex-1" id="githubLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="githubLinkText_${i}" placeholder="Title" value="${cachedText}" />` +
+          `<input type="text" class="input-box flex-1" id="githubLink_${i}" placeholder="Link" value="${cachedLink}" />`;
         container.appendChild(row);
       }
     }
@@ -302,8 +303,8 @@
         row.className = 'flex gap-2';
         const cachedLink = cached[i]?.link || '';
         const cachedText = cached[i]?.text || '';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="orgLink_${i}" placeholder="Link" value="${cachedLink}" />` +
-          `<input type="text" class="input-box flex-1" id="orgLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="orgLinkText_${i}" placeholder="Title" value="${cachedText}" />` +
+          `<input type="text" class="input-box flex-1" id="orgLink_${i}" placeholder="Link" value="${cachedLink}" />`;
         container.appendChild(row);
       }
     }
@@ -325,8 +326,8 @@
         row.className = 'flex gap-2';
         const cachedLink = cached[i]?.link || '';
         const cachedText = cached[i]?.text || '';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="facebookLink_${i}" placeholder="Link" value="${cachedLink}" />` +
-          `<input type="text" class="input-box flex-1" id="facebookLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="facebookLinkText_${i}" placeholder="Title" value="${cachedText}" />` +
+          `<input type="text" class="input-box flex-1" id="facebookLink_${i}" placeholder="Link" value="${cachedLink}" />`;
         container.appendChild(row);
       }
     }
@@ -348,8 +349,8 @@
         row.className = 'flex gap-2';
         const cachedLink = cached[i]?.link || '';
         const cachedText = cached[i]?.text || '';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="issueAssignLink_${i}" placeholder="Link" value="${cachedLink}" />` +
-          `<input type="text" class="input-box flex-1" id="issueAssignLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="issueAssignLinkText_${i}" placeholder="Title" value="${cachedText}" />` +
+          `<input type="text" class="input-box flex-1" id="issueAssignLink_${i}" placeholder="Link" value="${cachedLink}" />`;
         container.appendChild(row);
       }
     }
@@ -371,8 +372,8 @@
         row.className = 'flex gap-2';
         const cachedLink = cached[i]?.link || '';
         const cachedText = cached[i]?.text || '';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsNewLink_${i}" placeholder="Link" value="${cachedLink}" />` +
-          `<input type="text" class="input-box flex-1" id="docsNewLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsNewLinkText_${i}" placeholder="Title" value="${cachedText}" />` +
+          `<input type="text" class="input-box flex-1" id="docsNewLink_${i}" placeholder="Link" value="${cachedLink}" />`;
         container.appendChild(row);
       }
     }
@@ -394,8 +395,8 @@
         row.className = 'flex gap-2';
         const cachedLink = cached[i]?.link || '';
         const cachedText = cached[i]?.text || '';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsUpdateLink_${i}" placeholder="Link" value="${cachedLink}" />` +
-          `<input type="text" class="input-box flex-1" id="docsUpdateLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsUpdateLinkText_${i}" placeholder="Title" value="${cachedText}" />` +
+          `<input type="text" class="input-box flex-1" id="docsUpdateLink_${i}" placeholder="Link" value="${cachedLink}" />`;
         container.appendChild(row);
       }
     }
@@ -417,8 +418,8 @@
         row.className = 'flex gap-2';
         const cachedLink = cached[i]?.link || '';
         const cachedText = cached[i]?.text || '';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsKbLink_${i}" placeholder="Link" value="${cachedLink}" />` +
-          `<input type="text" class="input-box flex-1" id="docsKbLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="docsKbLinkText_${i}" placeholder="Title" value="${cachedText}" />` +
+          `<input type="text" class="input-box flex-1" id="docsKbLink_${i}" placeholder="Link" value="${cachedLink}" />`;
         container.appendChild(row);
       }
     }
@@ -440,13 +441,36 @@
         row.className = 'flex gap-2';
         const cachedLink = cached[i]?.link || '';
         const cachedText = cached[i]?.text || '';
-        row.innerHTML = `<input type="text" class="input-box flex-1" id="rndLink_${i}" placeholder="Link" value="${cachedLink}" />` +
-          `<input type="text" class="input-box flex-1" id="rndLinkText_${i}" placeholder="Title" value="${cachedText}" />`;
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="rndLinkText_${i}" placeholder="Title" value="${cachedText}" />` +
+          `<input type="text" class="input-box flex-1" id="rndLink_${i}" placeholder="Link" value="${cachedLink}" />`;
         container.appendChild(row);
       }
     }
     document.getElementById('rnd').addEventListener('change', renderRndInputs);
     renderRndInputs();
+
+    function renderOtfInputs() {
+      const count = parseInt(document.getElementById('otfCount').value) || 0;
+      const container = document.getElementById('otfInputs');
+      const cached = [];
+      for (let i = 0; i < container.children.length; i++) {
+        const text = container.querySelector(`#otfText_${i}`)?.value || '';
+        const link = container.querySelector(`#otfLink_${i}`)?.value || '';
+        cached.push({ text, link });
+      }
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const cachedText = cached[i]?.text || '';
+        const cachedLink = cached[i]?.link || '';
+        const row = document.createElement('div');
+        row.className = 'flex gap-2';
+        row.innerHTML = `<input type="text" class="input-box flex-1" id="otfText_${i}" placeholder="Title" value="${cachedText}" />` +
+          `<input type="text" class="input-box flex-1" id="otfLink_${i}" placeholder="Link" value="${cachedLink}" />`;
+        container.appendChild(row);
+      }
+    }
+    document.getElementById('otfCount').addEventListener('change', renderOtfInputs);
+    renderOtfInputs();
 
     // 3-3-3 info toggle
     document.getElementById('threeInfoBtn').onclick = function() {
