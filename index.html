@@ -18,177 +18,165 @@
       </button>
     </h1>
 
-    <div class="text-lg font-semibold mb-2 text-left">What did you complete today?</div>
+    <div class="text-lg font-semibold mb-4 text-left">What did you complete today?</div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <label class="block">
-        FreeScout Tickets Replied:
-        <input type="number" id="tickets" class="input-box" min="0" value="0" />
-      </label>
-      <label class="block">
-        Live Chats Replied:
-        <input type="number" id="chats" class="input-box" min="0" value="0" />
-      </label>
-      <label class="block">
-        Reviews Asked:
-        <input type="number" id="reviews" class="input-box" min="0" value="0" />
-      </label>
-      <label class="block">
-        GPT Training Data Added:
-        <input type="number" id="gptdata" class="input-box" min="0" value="0" />
-      </label>
+    <div class="space-y-6">
+      <!-- Tickets & Live Chats Section -->
+      <div class="border-b pb-4">
+        <h2 class="text-md font-semibold mb-3">📥 Tickets & Live Chats</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <label class="block">
+            FreeScout Tickets Replied (Assigned):
+            <input type="number" id="tickets" class="input-box" min="0" value="0" />
           </label>
-      <label class="block col-span-2">
-        ORG Topics Replied:
-        <input type="number" id="org" class="input-box" min="0" value="0" onchange="renderOrgInputs()" />
-        <div id="orgInputs" class="space-y-2 mt-2"></div>
-      </label>
-      <label class="block col-span-2">
-        GitHub Issues Replied/Created:
-        <input type="number" id="github" class="input-box" min="0" value="0" onchange="renderGithubInputs()" />
-        <div id="githubInputs" class="space-y-2 mt-2"></div>
-      </label>
-      <label class="block col-span-2">
-        Facebook Posts/Comments Replied:
-        <input type="number" id="facebook" class="input-box" min="0" value="0" onchange="renderFacebookInputs()" />
-        <div id="facebookInputs" class="space-y-2 mt-2"></div>
-      </label>
-      <label class="block col-span-2">
-        Issues Assigned:
-        <input type="number" id="issueAssign" class="input-box" min="0" value="0" onchange="renderIssueAssignInputs()" />
-        <div id="issueAssignInputs" class="space-y-2 mt-2"></div>
-      </label>
-      <label class="block col-span-2">
-        New Documentation Articles:
-        <input type="number" id="docsNew" class="input-box" min="0" value="0" onchange="renderDocsNewInputs()" />
-        <div id="docsNewInputs" class="space-y-2 mt-2"></div>
-      </label>
-      <label class="block col-span-2">
-        Updated Documentation Articles:
-        <input type="number" id="docsUpdate" class="input-box" min="0" value="0" onchange="renderDocsUpdateInputs()" />
-        <div id="docsUpdateInputs" class="space-y-2 mt-2"></div>
-      </label>
-      <label class="block col-span-2">
-        Knowledgebase Articles Published:
-        <input type="number" id="docsKb" class="input-box" min="0" value="0" onchange="renderDocsKbInputs()" />
-        <div id="docsKbInputs" class="space-y-2 mt-2"></div>
-      </label>
-      <label class="block col-span-2">
-        R&D Topics/Issues Documented:
-        <input type="number" id="rnd" class="input-box" min="0" value="0" onchange="renderRndInputs()" />
-        <div id="rndInputs" class="space-y-2 mt-2"></div>
-      </label>
-      <label class="block col-span-2">
-        QA Topics:
-        <textarea id="qa" class="input-box" rows="2"></textarea>
-      </label>
-      <label class="block col-span-2">
-        Number of Meetings Attended:
-        <input type="number" id="meetingsCount" class="input-box" min="0" value="0" onchange="renderMeetingInputs()" />
-      </label>
-      <div id="meetingsInputs" class="col-span-2 space-y-2"></div>
-      <label class="block col-span-2">
-        Learning:
-        <textarea id="learning" class="input-box" rows="2"></textarea>
-      </label>
-      <label class="block col-span-2">
-        Number of Collaborations:
-        <input type="number" id="collabCount" class="input-box" min="0" value="0" onchange="renderCollabInputs()" />
-      </label>
-      <div id="collabInputs" class="col-span-2 space-y-2"></div>
-      <label class="block col-span-2">
-        Number of OTF / Additional Tasks:
-        <input type="number" id="otfCount" class="input-box" min="0" value="0" onchange="renderOtfInputs()" />
-        <div id="otfInputs" class="space-y-2 mt-2"></div>
-      </label>
-      
+          <label class="block">
+            Tickets Reviewed (Unassigned):
+            <input type="number" id="reviews" class="input-box" min="0" value="0" />
+          </label>
+          <label class="block">
+            Live Chats Handled:
+            <input type="number" id="chats" class="input-box" min="0" value="0" />
+          </label>
+        </div>
+      </div>
+
+      <!-- Community & Platform Section -->
+      <div class="border-b pb-4">
+        <h2 class="text-md font-semibold mb-3">🌐 Community & Platform Contributions</h2>
+        <div class="space-y-4">
+          <label class="block">
+            GitHub Issues Replied/Created:
+            <input type="number" id="github" class="input-box" min="0" value="0" onchange="renderGithubInputs()" />
+            <div id="githubInputs" class="space-y-2 mt-2"></div>
+          </label>
+          <label class="block">
+            Facebook Posts/Comments Replied:
+            <input type="number" id="facebook" class="input-box" min="0" value="0" onchange="renderFacebookInputs()" />
+            <div id="facebookInputs" class="space-y-2 mt-2"></div>
+          </label>
+          <label class="block">
+            Issues Assigned:
+            <input type="number" id="issueAssign" class="input-box" min="0" value="0" onchange="renderIssueAssignInputs()" />
+            <div id="issueAssignInputs" class="space-y-2 mt-2"></div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Documentation Section -->
+      <div class="border-b pb-4">
+        <h2 class="text-md font-semibold mb-3">📚 Documentation</h2>
+        <div class="space-y-4">
+          <label class="block">
+            New Documentation Articles:
+            <input type="number" id="docsNew" class="input-box" min="0" value="0" onchange="renderDocsNewInputs()" />
+            <div id="docsNewInputs" class="space-y-2 mt-2"></div>
+          </label>
+          <label class="block">
+            Updated Documentation Articles:
+            <input type="number" id="docsUpdate" class="input-box" min="0" value="0" onchange="renderDocsUpdateInputs()" />
+            <div id="docsUpdateInputs" class="space-y-2 mt-2"></div>
+          </label>
+          <label class="block">
+            Knowledgebase Articles Published:
+            <input type="number" id="docsKb" class="input-box" min="0" value="0" onchange="renderDocsKbInputs()" />
+            <div id="docsKbInputs" class="space-y-2 mt-2"></div>
+          </label>
+        </div>
+      </div>
+      <!-- Research & Development Section -->
+      <div class="border-b pb-4">
+        <h2 class="text-md font-semibold mb-3">🔬 Research & Development</h2>
+        <div class="space-y-4">
+          <label class="block">
+            R&D Topics/Issues Documented:
+            <input type="number" id="rnd" class="input-box" min="0" value="0" onchange="renderRndInputs()" />
+            <div id="rndInputs" class="space-y-2 mt-2"></div>
+          </label>
+          <label class="block">
+            QA Topics:
+            <textarea id="qa" class="input-box" rows="2"></textarea>
+          </label>
+        </div>
+      </div>
+
+      <!-- Meetings & Collaboration Section -->
+      <div class="border-b pb-4">
+        <h2 class="text-md font-semibold mb-3">👥 Meetings & Collaboration</h2>
+        <div class="space-y-4">
+          <label class="block">
+            Number of Meetings Attended:
+            <input type="number" id="meetingsCount" class="input-box" min="0" value="0" onchange="renderMeetingInputs()" />
+            <div id="meetingsInputs" class="space-y-2 mt-2"></div>
+          </label>
+          <label class="block">
+            Number of Collaborations:
+            <input type="number" id="collabCount" class="input-box" min="0" value="0" onchange="renderCollabInputs()" />
+            <div id="collabInputs" class="space-y-2 mt-2"></div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Learning & Additional Tasks Section -->
+      <div class="border-b pb-4">
+        <h2 class="text-md font-semibold mb-3">📚 Learning & Additional Tasks</h2>
+        <div class="space-y-4">
+          <label class="block">
+            Learning:
+            <textarea id="learning" class="input-box" rows="2"></textarea>
+          </label>
+          <label class="block">
+            Number of OTF / Additional Tasks:
+            <input type="number" id="otfCount" class="input-box" min="0" value="0" onchange="renderOtfInputs()" />
+            <div id="otfInputs" class="space-y-2 mt-2"></div>
+          </label>
+        </div>
+      </div>
+
     </div>
 
-    <div class="flex gap-4">
+    <div class="mb-4">
+      <label class="block font-medium mb-1">On the next working day, I have plans to</label>
+      <div id="tomorrowOptions" class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
+        <label><input type="checkbox" class="tomorrow-check" value="Reply to unassigned and assigned FreeScout tickets"> Reply to unassigned and assigned FreeScout tickets</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Reply to live chats"> Reply to live chats</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Follow up on unresolved tickets"> Follow up on unresolved tickets</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Respond to Facebook community posts/comments"> Respond to Facebook community posts/comments</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Check and update pending issues"> Check and update pending issues</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Test client issues (local and live)"> Test client issues (local and live)</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Open or respond to GitHub issues/feature requests"> Open or respond to GitHub issues/feature requests</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Complete scheduled learning"> Complete scheduled learning</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Review and document R&D findings"> Review and document R&D findings</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Write new documentation articles"> Write new documentation articles</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Update existing internal documentation"> Update existing internal documentation</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Publish knowledge base articles"> Publish knowledge base articles</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Evaluation sheet updates"> Evaluation sheet updates</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Productivity report updates"> Productivity report updates</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Collaborate on Feature discussions and support threads"> Collaborate on Feature discussions and support threads</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Ask for reviews on tickets/clients"> Ask for reviews on tickets/clients</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Review blogs or knowledge content"> Review blogs or knowledge content</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Respond to Slack threads"> Respond to Slack threads</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Monitor and reply to ORG topics"> Monitor and reply to ORG topics</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Scour social media for product mentions"> Scour social media for product mentions</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Facebook monitoring"> Facebook monitoring</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Check sum-ups"> Check sum-ups</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Assign issues to relevant teams"> Assign issues to relevant teams</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Post client issues in Slack or internal tracking"> Post client issues in Slack or internal tracking</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Collaborate on specific support threads or DMs"> Collaborate on specific support threads or DMs</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Add to GPT training data"> Add to GPT training data</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Submit daily product data"> Submit daily product data</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Update images/screenshots on Blog posts"> Update images/screenshots on Blog posts</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Finalize or review documentation draft"> Finalize or review documentation draft</label>
+        <label><input type="checkbox" class="tomorrow-check" value="Update screenshots in documentation"> Update screenshots in documentation</label>
+      </div>
+      <textarea id="tomorrowPlans" class="input-box mb-4" rows="5" placeholder="List your plans for tomorrow, one per line..."></textarea>
+    </div>
+    <div class="mt-4 flex gap-4">
       <button onclick="generateSummary()" class="btn btn-blue">Generate Summary</button>
       <button onclick="copySummary()" class="btn btn-green">Copy to Clipboard</button>
       <button onclick="saveToObsidian()" class="btn btn-dark">Save as Markdown</button>
       <button onclick="clearSummaryOutput()" class="btn btn-red">Clear</button>
     </div>
-
     <textarea id="summaryOutput" readonly class="output-box"></textarea>
-
-    <div class="mt-8">
-      <div class="flex items-center gap-2 mb-2 justify-start">
-        <span class="font-bold text-lg">What do you commit for tomorrow?</span>
-        <button id="threeInfoBtn" class="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none" title="What is the 3-3-3 Method?" style="font-size:1.1rem;line-height:1;">ℹ️</button>
-      </div>
-      <div id="threeInfo" class="hidden mb-2 p-2 rounded bg-blue-50 dark:bg-blue-900 text-blue-900 dark:text-blue-100 text-sm">
-        <b>3-3-3 Method:</b> List your most important task that will take 3 hours of deep focus, 3 short tasks, and 3 maintenance activities for tomorrow. This helps you focus, make progress, and maintain balance each day.
-      </div>
-      <div class="mb-2">
-        <label class="block font-medium mb-1">Most Important Task (3 Hours Deep Focus)</label>
-        <textarea id="threeFocus" class="input-box mb-4" rows="3" placeholder="What is your most important task that requires 3 hours of deep focus?"></textarea>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block font-medium mb-1">Short Tasks</label>
-            <textarea id="manualShortTasks" class="input-box mb-2" rows="2" placeholder="Add custom short tasks, one per line..."></textarea>
-            <div id="shortTasks" class="text-sm space-y-1">
-              <div class="font-semibold mb-1">🔁 Support & Communication</div>
-              <label><input type="checkbox" class="short-check" value="Ask for reviews on tickets/clients"> Ask for reviews on tickets/clients</label><br>
-              <label><input type="checkbox" class="short-check" value="Respond to Slack threads"> Respond to Slack threads</label><br>
-              <label><input type="checkbox" class="short-check" value="Monitor and reply to ORG topics"> Monitor and reply to ORG topics</label><br>
-              <label><input type="checkbox" class="short-check" value="Respond to Facebook community posts/comments"> Respond to Facebook community posts/comments</label><br>
-              <label><input type="checkbox" class="short-check" value="Scour social media for product mentions"> Scour social media for product mentions</label><br>
-              <label><input type="checkbox" class="short-check" value="Facebook monitoring"> Facebook monitoring</label><br>
-              <label><input type="checkbox" class="short-check" value="Check sum-ups"> Check sum-ups</label><br>
-              <div class="font-semibold mt-2 mb-1">🔧 Issue Handling</div>
-              <label><input type="checkbox" class="short-check" value="Assign issues to relevant teams"> Assign issues to relevant teams</label><br>
-              <label><input type="checkbox" class="short-check" value="Post client issues in Slack or internal tracking"> Post client issues in Slack or internal tracking</label><br>
-              <label><input type="checkbox" class="short-check" value="Collaborate on specific support threads or DMs"> Collaborate on specific support threads or DMs</label><br>
-              <div class="font-semibold mt-2 mb-1">🧠 Knowledge & Learning</div>
-              <label><input type="checkbox" class="short-check" value="Add to GPT training data"> Add to GPT training data</label><br>
-              <label><input type="checkbox" class="short-check" value="Submit daily product data"> Submit daily product data</label><br>
-              <div class="font-semibold mt-2 mb-1">📝 Content & Docs</div>
-              <label><input type="checkbox" class="short-check" value="Review blogs or knowledge content"> Review blogs or knowledge content</label><br>
-              <label><input type="checkbox" class="short-check" value="Update images/screenshots on Blog posts"> Update images/screenshots on Blog posts</label><br>
-              <label><input type="checkbox" class="short-check" value="Finalize or review documentation draft"> Finalize or review documentation draft</label><br>
-              <label><input type="checkbox" class="short-check" value="Update screenshots in documentation"> Update screenshots in documentation</label><br>
-            </div>
-          </div>
-          <div>
-            <label class="block font-medium mb-1">Maintenance Activities</label>
-            <textarea id="manualMaintTasks" class="input-box mb-2" rows="2" placeholder="Add custom maintenance activities, one per line..."></textarea>
-            <div id="maintActivities" class="text-sm">
-              <div class="font-semibold mb-1">📞 Support & Communication Maintenance</div>
-              <label><input type="checkbox" class="maint-check" value="Reply to unassigned and assigned FreeScout tickets"> Reply to unassigned and assigned FreeScout tickets</label><br>
-              <label><input type="checkbox" class="maint-check" value="Reply to live chats"> Reply to live chats</label><br>
-              <label><input type="checkbox" class="maint-check" value="Follow up on unresolved tickets"> Follow up on unresolved tickets</label><br>
-              <label><input type="checkbox" class="maint-check" value="Respond to Facebook community posts/comments"> Respond to Facebook community posts/comments</label><br>
-              <div class="font-semibold mt-2 mb-1">🧪 Issue Handling & Technical QA</div>
-              <label><input type="checkbox" class="maint-check" value="Check and update pending issues"> Check and update pending issues</label><br>
-              <label><input type="checkbox" class="maint-check" value="Test client issues (local and live)"> Test client issues (local and live)</label><br>
-              <label><input type="checkbox" class="maint-check" value="Open or respond to GitHub issues/feature requests"> Open or respond to GitHub issues/feature requests</label><br>
-              <div class="font-semibold mt-2 mb-1">🧠 Learning & Knowledge Management</div>
-              <label><input type="checkbox" class="maint-check" value="Complete scheduled learning"> Complete scheduled learning</label><br>
-              <label><input type="checkbox" class="maint-check" value="Review and document R&D findings"> Review and document R&D findings</label><br>
-              <div class="font-semibold mt-2 mb-1">📝 Documentation & Content</div>
-              <label><input type="checkbox" class="maint-check" value="Write new documentation articles"> Write new documentation articles</label><br>
-              <label><input type="checkbox" class="maint-check" value="Update existing internal documentation"> Update existing internal documentation</label><br>
-              <label><input type="checkbox" class="maint-check" value="Publish knowledge base articles"> Publish knowledge base articles</label><br>
-              <label><input type="checkbox" class="maint-check" value="Evaluation sheet updates"> Evaluation sheet updates</label><br>
-              <label><input type="checkbox" class="maint-check" value="Productivity report updates"> Productivity report updates</label><br>
-              <div class="font-semibold mt-2 mb-1">👥 Collaboration</div>
-              <label><input type="checkbox" class="maint-check" value="Collaborate on Feature discussions and support threads"> Collaborate on Feature discussions and support threads</label><br>
-              <label><input type="checkbox" class="maint-check" value="Ask for reviews on tickets/clients"> Ask for reviews on tickets/clients</label><br>
-              <label><input type="checkbox" class="maint-check" value="Review blogs or knowledge content"> Review blogs or knowledge content</label><br>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="flex gap-4 mt-4">
-        <button onclick="generate333Summary()" class="btn btn-blue">Generate Commitments</button>
-        <button onclick="copy333Commitment()" class="btn btn-green">Copy to Clipboard</button>
-        <button onclick="save333ToObsidian()" class="btn btn-dark">Save as Markdown</button>
-        <button onclick="clear333Output()" class="btn btn-red">Clear</button>
-      </div>
-      <textarea id="commitmentOutput" readonly class="output-box mt-4"></textarea>
-    </div>
   </div>
   <script src="script.js"></script>
   <script>
