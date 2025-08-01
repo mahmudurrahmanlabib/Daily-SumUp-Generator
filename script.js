@@ -1,386 +1,137 @@
 function generateSummary() {
-  const tickets = document.getElementById('tickets').value;
-  const chats = document.getElementById('chats').value;
-  // ORG
-  const org = document.getElementById('org') ? document.getElementById('org').value : '';
-  let orgLinksArr = [];
-  for (let i = 0; i < (parseInt(org) || 0); i++) {
-    const url = document.getElementById(`orgLink_${i}`)?.value.trim();
-    const text = document.getElementById(`orgLinkText_${i}`)?.value.trim();
-    if (url && text) orgLinksArr.push(`<${url} | ${text}>`);
-    else if (url) orgLinksArr.push(`<${url}>`);
-    else if (text) orgLinksArr.push(text);
-  }
-  // GitHub
-  const github = document.getElementById('github') ? document.getElementById('github').value : '';
-  let githubLinksArr = [];
-  for (let i = 0; i < (parseInt(github) || 0); i++) {
-    const url = document.getElementById(`githubLink_${i}`)?.value.trim();
-    const text = document.getElementById(`githubLinkText_${i}`)?.value.trim();
-    if (url && text) githubLinksArr.push(`<${url} | ${text}>`);
-    else if (url) githubLinksArr.push(`<${url}>`);
-    else if (text) githubLinksArr.push(text);
-  }
-  // Facebook
-  const facebook = document.getElementById('facebook') ? document.getElementById('facebook').value : '';
-  let facebookLinksArr = [];
-  for (let i = 0; i < (parseInt(facebook) || 0); i++) {
-    const url = document.getElementById(`facebookLink_${i}`)?.value.trim();
-    const text = document.getElementById(`facebookLinkText_${i}`)?.value.trim();
-    if (url && text) facebookLinksArr.push(`<${url} | ${text}>`);
-    else if (url) facebookLinksArr.push(`<${url}>`);
-    else if (text) facebookLinksArr.push(text);
-  }
-  // Issues Assigned
-  const issueAssign = document.getElementById('issueAssign') ? document.getElementById('issueAssign').value : '';
-  let issueAssignLinksArr = [];
-  for (let i = 0; i < (parseInt(issueAssign) || 0); i++) {
-    const url = document.getElementById(`issueAssignLink_${i}`)?.value.trim();
-    const text = document.getElementById(`issueAssignLinkText_${i}`)?.value.trim();
-    if (url && text) issueAssignLinksArr.push(`<${url} | ${text}>`);
-    else if (url) issueAssignLinksArr.push(`<${url}>`);
-    else if (text) issueAssignLinksArr.push(text);
-  }
-  // Docs New
-  const docsNew = document.getElementById('docsNew') ? document.getElementById('docsNew').value : '';
-  let docsNewLinksArr = [];
-  for (let i = 0; i < (parseInt(docsNew) || 0); i++) {
-    const url = document.getElementById(`docsNewLink_${i}`)?.value.trim();
-    const text = document.getElementById(`docsNewLinkText_${i}`)?.value.trim();
-    if (url && text) docsNewLinksArr.push(`<${url} | ${text}>`);
-    else if (url) docsNewLinksArr.push(`<${url}>`);
-    else if (text) docsNewLinksArr.push(text);
-  }
-  // Docs Update
-  const docsUpdate = document.getElementById('docsUpdate') ? document.getElementById('docsUpdate').value : '';
-  let docsUpdateLinksArr = [];
-  for (let i = 0; i < (parseInt(docsUpdate) || 0); i++) {
-    const url = document.getElementById(`docsUpdateLink_${i}`)?.value.trim();
-    const text = document.getElementById(`docsUpdateLinkText_${i}`)?.value.trim();
-    if (url && text) docsUpdateLinksArr.push(`<${url} | ${text}>`);
-    else if (url) docsUpdateLinksArr.push(`<${url}>`);
-    else if (text) docsUpdateLinksArr.push(text);
-  }
-  // Docs KB
-  const docsKb = document.getElementById('docsKb') ? document.getElementById('docsKb').value : '';
-  let docsKbLinksArr = [];
-  for (let i = 0; i < (parseInt(docsKb) || 0); i++) {
-    const url = document.getElementById(`docsKbLink_${i}`)?.value.trim();
-    const text = document.getElementById(`docsKbLinkText_${i}`)?.value.trim();
-    if (url && text) docsKbLinksArr.push(`<${url} | ${text}>`);
-    else if (url) docsKbLinksArr.push(`<${url}>`);
-    else if (text) docsKbLinksArr.push(text);
-  }
-  // R&D
-  const rnd = document.getElementById('rnd') ? document.getElementById('rnd').value : '';
-  let rndLinksArr = [];
-  for (let i = 0; i < (parseInt(rnd) || 0); i++) {
-    const url = document.getElementById(`rndLink_${i}`)?.value.trim();
-    const text = document.getElementById(`rndLinkText_${i}`)?.value.trim();
-    if (url && text) rndLinksArr.push(`<${url} | ${text}>`);
-    else if (url) rndLinksArr.push(`<${url}>`);
-    else if (text) rndLinksArr.push(text);
-  }
+  try {
+    // Get today's date in required format
+    const today = new Date();
+    const dateStr = today.toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' });
 
-  const meetingsCount = parseInt(document.getElementById('meetingsCount')?.value) || 0;
-  let meetingsDetails = [];
-  for (let i = 0; i < meetingsCount; i++) {
-    const val = document.getElementById(`meeting_${i}`)?.value;
-    if (val) meetingsDetails.push(val);
-  }
-  const meetings = meetingsDetails.length > 0 ? meetingsDetails.join('; ') : '';
-  const reviews = document.getElementById('reviews').value;
-  const qa = document.getElementById('qa').value;
-  const learning = document.getElementById('learning').value;
-  const gptdata = document.getElementById('gptdata').value;
-  const docs = document.getElementById('docs')?.value || '';
+    // Get all values
+    const tickets = parseInt(document.getElementById('tickets').value) || 0;
+    const chats = parseInt(document.getElementById('chats').value) || 0;
+    const reviews = parseInt(document.getElementById('reviews').value) || 0;
+    const facebook = parseInt(document.getElementById('facebook').value) || 0;
+    const github = parseInt(document.getElementById('github').value) || 0;
+    const docsNew = parseInt(document.getElementById('docsNew').value) || 0;
+    const docsUpdate = parseInt(document.getElementById('docsUpdate').value) || 0;
+    const docsKb = parseInt(document.getElementById('docsKb').value) || 0;
+    const rnd = parseInt(document.getElementById('rnd').value) || 0;
+    const otfCount = parseInt(document.getElementById('otfCount').value) || 0;
 
-  // Collaboration details
-  const collabCount = parseInt(document.getElementById('collabCount')?.value) || 0;
-  let collabDetails = [];
-  for (let i = 0; i < collabCount; i++) {
-    const withWhom = document.getElementById(`collab_with_${i}`)?.value.trim();
-    const aboutWhat = document.getElementById(`collab_about_${i}`)?.value.trim();
-    if (withWhom && aboutWhat) {
-      // Split names by comma and clean up whitespace
-      const names = withWhom.split(',').map(name => name.trim()).filter(Boolean);
-      
-      let formattedNames;
-      if (names.length === 1) {
-        formattedNames = names[0];
-      } else if (names.length === 2) {
-        formattedNames = `${names[0]} and ${names[1]}`;
-      } else if (names.length >= 3) {
-        formattedNames = `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+    // Meeting details
+    const meetingsCount = parseInt(document.getElementById('meetingsCount').value) || 0;
+    let meetingsDetails = [];
+    for (let i = 0; i < meetingsCount; i++) {
+      const val = document.getElementById(`meeting_${i}`)?.value?.trim();
+      if (val) meetingsDetails.push(val);
+    }
+
+    // Collaboration details
+    const collabCount = parseInt(document.getElementById('collabCount').value) || 0;
+    let collabDetails = [];
+    for (let i = 0; i < collabCount; i++) {
+      const withWhom = document.getElementById(`collab_with_${i}`)?.value?.trim();
+      const aboutWhat = document.getElementById(`collab_about_${i}`)?.value?.trim();
+      if (withWhom && aboutWhat) {
+        collabDetails.push(`with ${withWhom} regarding '${aboutWhat}'`);
       }
-      
-      collabDetails.push(` - Collaborated with ${formattedNames} regarding '${aboutWhat}'`);
     }
-  }
 
-  // Helper to format lines with links/titles
-  function formatLine(base, arr) {
-    if (arr.length) return `${base} ( ` + arr.join(' , ') + ' )';
-    return base;
-  }
+    // QA topics
+    const qa = document.getElementById('qa').value;
+    const qaTopics = qa.split('\n').map(line => line.trim()).filter(Boolean);
 
-  let orgLine = formatLine(`Replied to ${org || '0'} ORG topics.`, orgLinksArr);
-  let githubLine = formatLine(`Replied to/Created ${github || '0'} GitHub issues.`, githubLinksArr);
-  let facebookLine = formatLine(`Replied to ${facebook || '0'} Facebook community posts/comments.`, facebookLinksArr);
-  let issueAssignLine = formatLine(`Assigned ${issueAssign || '0'} issues to relevant teams.`, issueAssignLinksArr);
-  let docsNewLine = formatLine(`Wrote ${docsNew || '0'} new documentation articles.`, docsNewLinksArr);
-  let docsUpdateLine = formatLine(`Updated ${docsUpdate || '0'} existing documentation articles.`, docsUpdateLinksArr);
-  let docsKbLine = formatLine(`Published ${docsKb || '0'} knowledgebase articles.`, docsKbLinksArr);
-
-  // QA / R&D Section
-  let qaCount = 0;
-  let qaTasks = [];
-  // Count GitHub Issues Replied/Created as QA tasks
-  const githubCount = parseInt(document.getElementById('github').value) || 0;
-  if (githubCount > 0) {
-    qaCount += githubCount;
-    for (let i = 0; i < githubCount; i++) {
-      const link = document.getElementById(`githubLink_${i}`)?.value.trim();
-      const text = document.getElementById(`githubLinkText_${i}`)?.value.trim();
-      if (text) qaTasks.push(text);
+    // Get R&D topics
+    let rndDetails = [];
+    for (let i = 0; i < rnd; i++) {
+      const title = document.getElementById(`rndLinkText_${i}`)?.value?.trim();
+      if (title) rndDetails.push(title);
     }
+
+    // Get OTF/Additional tasks
+    let otfTasks = [];
+    for (let i = 0; i < otfCount; i++) {
+      const title = document.getElementById(`otfText_${i}`)?.value?.trim();
+      if (title) otfTasks.push(title);
+    }
+
+    // Build the formatted summary
+    let summaryText = `Summary of Activities –  ${dateStr}\n`;
+    summaryText += `\n:inbox_tray: Tickets & Live Chats\n`;
+    summaryText += `Assigned - ${tickets.toString().padStart(2, '0')}\n`;
+    summaryText += `Unassigned - ${reviews.toString().padStart(2, '0')}\n`;
+    summaryText += `\n:speech_balloon:  Live chats:\n`;
+    summaryText += `Live chat sessions handled: ${chats.toString().padStart(2, '0')}\n`;
+    summaryText += `\n:globe_with_meridians: Community & Platform Contributions\n`;
+    summaryText += `Facebook: ${facebook} post/comment replied\n`;
+    summaryText += `Github: ${github} Issue created\n`;
+    summaryText += `\n:books: Documentation\n`;
+    summaryText += `Updated documentation: ${docsUpdate} article\n`;
+    summaryText += `Published knowledgebase articles: ${docsKb}\n`;
+    summaryText += `\n:office_worker: Meetings\n`;
+    if (meetingsDetails.length > 0) {
+      summaryText += `Attended ${meetingsDetails.length} meeting${meetingsDetails.length > 1 ? 's' : ''}:\n`;
+      meetingsDetails.forEach(meeting => {
+        summaryText += `${meeting}\n`;
+      });
+    }
+    summaryText += `\n:handshake: Collaboration\n`;
+    if (collabDetails.length > 0) {
+      collabDetails.forEach(collab => {
+        summaryText += `${collab}\n`;
+      });
+    }
+    summaryText += `\n :test_tube: QA / R&D / Technical Validation\n`;
+    if (qaTopics.length > 0) {
+      summaryText += `QA Conducted on ${qaTopics.length} feature${qaTopics.length > 1 ? 's' : ''}:\n`;
+      qaTopics.forEach(topic => {
+        summaryText += `${topic}\n`;
+      });
+    }
+    if (rndDetails.length > 0) {
+      summaryText += `R&D for ${rndDetails.join(', ')}\n`;
+    }
+    summaryText += `\n:bar_chart: Other Tasks\n`;
+    if (otfTasks.length > 0) {
+      otfTasks.forEach(task => {
+        summaryText += `${task}\n`;
+      });
+    }
+    // Next day plans (plain, not 3-part)
+    const tomorrowCommitments = [];
+    const focus = document.getElementById('threeFocus')?.value.trim();
+    if (focus) tomorrowCommitments.push(focus);
+    const manualShort = document.getElementById('manualShortTasks')?.value.trim().split(/\n|\r/).map(v => v.trim()).filter(Boolean) || [];
+    tomorrowCommitments.push(...manualShort);
+    const shortChecks = Array.from(document.querySelectorAll('.short-check:checked')).map(cb => cb.value);
+    tomorrowCommitments.push(...shortChecks);
+    const manualMaint = document.getElementById('manualMaintTasks')?.value.trim().split(/\n|\r/).map(v => v.trim()).filter(Boolean) || [];
+    tomorrowCommitments.push(...manualMaint);
+    const maintChecks = Array.from(document.querySelectorAll('.maint-check:checked')).map(cb => cb.value);
+    tomorrowCommitments.push(...maintChecks);
+    const tomorrowChecks = Array.from(document.querySelectorAll('.tomorrow-check:checked')).map(cb => cb.value);
+    const tomorrowPlansText = document.getElementById('tomorrowPlans').value.trim();
+    let tomorrowList = [];
+    if (tomorrowChecks.length) tomorrowList = tomorrowList.concat(tomorrowChecks);
+    if (tomorrowPlansText) tomorrowList = tomorrowList.concat(tomorrowPlansText.split(/\n|\r/).map(v => v.trim()).filter(Boolean));
+    if (tomorrowList.length) {
+      summaryText += `On the next working day, I have plans to:\n${tomorrowList.map(v => `- ${v}`).join('\n')}`;
+    }
+    document.getElementById('summaryOutput').value = summaryText.trim();
+  } catch (error) {
+    console.error('Error generating summary:', error);
+    document.getElementById('summaryOutput').value = 'Error generating summary. Please check the console for details.';
   }
-  // Add any manual QA tasks from textarea
-  const qaText = document.getElementById('qa').value.trim();
-  if (qaText) {
-    qaTasks = qaTasks.concat(qaText.split(/\n|,/).map(t => t.trim()).filter(Boolean));
-    qaCount += qaText.split(/\n|,/).filter(t => t.trim()).length;
-  }
-  // R&D Section
-  let rndCount = 0;
-  let rndTopics = [];
-  let rndLinksTopics = [];
-  const rndNum = parseInt(document.getElementById('rnd').value) || 0;
-  for (let i = 0; i < rndNum; i++) {
-    const url = document.getElementById(`rndLink_${i}`)?.value.trim();
-    const text = document.getElementById(`rndLinkText_${i}`)?.value.trim();
-    if (url && text) rndLinksTopics.push(`<${url} | ${text}>`);
-    else if (url) rndLinksTopics.push(`<${url}>`);
-    else if (text) rndLinksTopics.push(text);
-  }
-  if (rndNum > 0) {
-    rndCount += rndNum;
-  }
-  // Compose QA / R&D output
-  let qaRndOutput = '';
-  if (qaCount > 0) {
-    qaRndOutput += `Conducted QA on ${qaCount.toString().padStart(2, '0')} tasks/features.`;
-    if (qaTasks.length) qaRndOutput += ` (${qaTasks.join(', ')})`;
-    qaRndOutput += '\n';
-  }
-  if (rndCount > 0) {
-    qaRndOutput += `Researched and documented ${rndCount.toString().padStart(2, '0')} R&D topics/issues.`;
-    if (rndLinksTopics.length) qaRndOutput += ` (${rndLinksTopics.join(', ')})`;
-    qaRndOutput += '\n';
-  }
+}
 
-  // OTF/Additional Tasks with links
-  let otfLines = [];
-  const otfCount = parseInt(document.getElementById('otfCount')?.value) || 0;
-  for (let i = 0; i < otfCount; i++) {
-    const text = document.getElementById(`otfText_${i}`)?.value.trim();
-    const link = document.getElementById(`otfLink_${i}`)?.value.trim();
-    if (text && link) otfLines.push(` - <${link} | ${text}>`);
-    else if (text) otfLines.push(` - ${text}`);
-    else if (link) otfLines.push(` - <${link}>`);
-  }
-
-  // Learning section: split by newlines, each as a bullet
-  let learningLines = learning.split('\n').map(l => l.trim()).filter(Boolean);
-  let learningOutput = learningLines.length ? learningLines.map(l => ` - ${l}`).join('\n') : ' -';
-
-  const summary = `Tickets and Live Chats:
- - Replied to ${tickets || '0'} FreeScout tickets.
- - Replied to ${chats || '0'} live chats.
-
-ORG, GitHub, and Facebook Replies:
- - ${orgLine}
- - ${githubLine}
- - ${facebookLine}
-
-Issue Assigning:
- - ${issueAssignLine}
-
-Documentation (New, Update, Knowledgebase):
- - ${docsNewLine}
- - ${docsUpdateLine}
- - ${docsKbLine}
-
-Meetings:
- - Attended ${meetingsCount || '0'} meetings${meetings ? ` (${meetings})` : ''}.
-
-Collaborations:
-${collabCount ? collabDetails.join('\n') : ' -'}
-
-Asked for Reviews:
- - Asked for reviews on ${reviews || '0'} tickets/Clients.
-
-R&D Topics/Issues Documented:
-${qaRndOutput ? qaRndOutput.split('\n').filter(Boolean).map(line => ' - ' + line).join('\n') : ''}
-
-Learning:
-${learningOutput}
-
-GPT training data:
- - Added ${gptdata || '0'} GPT Training data
-
-OTF/Additional Tasks:
-${otfLines.length ? otfLines.join('\n') : ' -'}\n`;
-
-  document.getElementById('summaryOutput').value = summary;
+function clearSummaryOutput() {
+  document.getElementById('summaryOutput').value = '';
 }
 
 function copySummary() {
   const output = document.getElementById('summaryOutput');
+  if (!output.value.trim()) {
+    alert('Nothing to copy');
+    return;
+  }
   output.select();
   document.execCommand('copy');
-  alert('Summary copied to clipboard!');
-}
-
-function shareToGoogleKeep() {
-  const text = document.getElementById('summaryOutput').value;
-  if (!text.trim()) {
-    showPopup('Nothing to share', true);
-    return;
-  }
-
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const dd = String(today.getDate()).padStart(2, '0');
-  const dateStr = `${yyyy}-${mm}-${dd}`;
-  
-  // Create the Google Keep URL with the note title and content
-  const title = encodeURIComponent(`Daily Summary ${dateStr}`);
-  const content = encodeURIComponent(text);
-  const keepUrl = `https://keep.google.com/u/0/#create/text=${content}`;
-
-  // Open Google Keep in a new window
-  window.open(keepUrl, '_blank', 'width=800,height=600');
-  showPopup('Opening Google Keep...');
-}
-
-function generate333Summary() {
-  const focus = document.getElementById('threeFocus').value.trim();
-  // Collect checked short tasks
-  const shortChecks = Array.from(document.querySelectorAll('.short-check:checked')).map(task => task.value);
-  const short = shortChecks.length ? shortChecks.map((task, i) => `${i + 1}. ${task}`).join('\n') : '-';
-  // Collect checked maintenance activities
-  const maintChecks = Array.from(document.querySelectorAll('.maint-check:checked')).map(task => task.value);
-  const maint = maintChecks.length ? maintChecks.map((task, i) => `${i + 1}. ${task}`).join('\n') : '-';
-
-  // Split focus into lines and number each
-  let focusLines = focus.split(/\r?\n/).map(task => task.trim()).filter(Boolean);
-  let focusOutput = focusLines.length ? focusLines.map((task, i) => `${i + 1}. ${task}`).join('\n') : '-';
-
-  const text = `Most Important Tasks:\n${focusOutput}\n\nShort Tasks:\n${short}\n\nMaintenance Activities:\n${maint}`;
-  document.getElementById('commitmentOutput').value = text;
-}
-
-function share333ToGoogleKeep() {
-  const text = document.getElementById('commitmentOutput').value;
-  if (!text.trim()) {
-    showPopup('Nothing to share', true);
-    return;
-  }
-
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const dd = String(today.getDate()).padStart(2, '0');
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const tomorrowStr = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
-  
-  // Create the Google Keep URL with the note title and content
-  const title = encodeURIComponent(`Commitments for ${tomorrowStr}`);
-  const content = encodeURIComponent(text);
-  const keepUrl = `https://keep.google.com/u/0/#create/text=${content}`;
-
-  // Open Google Keep in a new window
-  window.open(keepUrl, '_blank', 'width=800,height=600');
-  showPopup('Opening Google Keep...');
-}
-
-function saveToObsidian() {
-  const text = document.getElementById('summaryOutput').value;
-  if (!text.trim()) {
-    showPopup('Nothing to save', true);
-    return;
-  }
-
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const dd = String(today.getDate()).padStart(2, '0');
-  const dateStr = `${yyyy}-${mm}-${dd}`;
-  
-  // Create Obsidian-compatible markdown content with frontmatter
-  const frontmatter = [
-    '---',
-    `date: ${dateStr}`,
-    'type: daily-summary',
-    'tags: [daily-summary, work-log]',
-    '---',
-    '',
-    `# ${dateStr}`,
-    '',
-  ].join('\n');
-
-  const content = frontmatter + text;
-  
-  // Create and download the markdown file
-  const blob = new Blob([content], { type: 'text/markdown' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.download = `${dateStr}.md`;
-  link.href = url;
-  link.click();
-  URL.revokeObjectURL(url);
-  showPopup('Markdown file saved!');
-}
-
-function save333ToObsidian() {
-  const text = document.getElementById('commitmentOutput').value;
-  if (!text.trim()) {
-    showPopup('Nothing to save', true);
-    return;
-  }
-
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const yyyy = tomorrow.getFullYear();
-  const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
-  const dd = String(tomorrow.getDate()).padStart(2, '0');
-  const dateStr = `${yyyy}-${mm}-${dd}`;
-  
-  // Create Obsidian-compatible markdown content with frontmatter
-  const frontmatter = [
-    '---',
-    `date: ${dateStr}`,
-    'type: daily-commitments',
-    'tags: [daily-commitments, tasks, planning]',
-    '---',
-    '',
-    `# ${dateStr}`,
-    '',
-  ].join('\n');
-
-  const content = frontmatter + text;
-  
-  // Create and download the markdown file
-  const blob = new Blob([content], { type: 'text/markdown' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.download = `tasks_${dateStr}.md`;
-  link.href = url;
-  link.click();
-  URL.revokeObjectURL(url);
-  showPopup('Markdown file saved!');
 }
